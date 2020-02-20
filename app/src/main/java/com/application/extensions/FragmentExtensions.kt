@@ -7,3 +7,7 @@ import androidx.navigation.fragment.findNavController
 fun Fragment.navigateTo(@IdRes resource: Int) {
     findNavController().navigate(resource)
 }
+
+fun Fragment.popBackstack() {
+    findNavController().popBackStack()
+}
