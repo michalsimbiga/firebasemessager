@@ -2,7 +2,7 @@ package com.application.di
 
 import com.application.di.module.mainActivity.MainActivityModule
 import com.application.di.module.mainActivity.MainModule
-import com.application.ui.main.MainActivity
+import com.application.ui.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

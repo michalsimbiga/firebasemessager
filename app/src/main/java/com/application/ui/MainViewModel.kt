@@ -1,4 +1,4 @@
-package com.application.ui.main
+package com.application.ui
 
 import androidx.lifecycle.*
 import com.application.di.module.ViewModelAssistedFactory
