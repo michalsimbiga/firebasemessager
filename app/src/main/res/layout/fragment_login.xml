@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.application.ui.LoginViewModel" />
+
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -11,6 +19,7 @@
             android:id="@+id/login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@{viewModel.username}"
             android:hint="Username" />
 
         <EditText
@@ -18,20 +27,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
+            android:text="@{viewModel.password}"
             android:inputType="textPassword" />
 
         <Button
             android:id="@+id/login_button"
             android:layout_width="match_parent"
-            android:text="Login"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Login" />
 
         <TextView
             android:id="@+id/login_register"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="You don't have an account yet?"
-            android:layout_height="wrap_content"/>
+            android:text="You don't have an account yet?" />
 
     </LinearLayout>
 </layout>

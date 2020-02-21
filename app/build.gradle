@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
+apply from: "$rootDir/common-android.gradle"
+apply plugin: 'kotlin-allopen'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply from: "$rootDir/common-android.gradle"
-apply plugin: 'com.google.gms.google-services'
 
 
 android {
@@ -10,58 +11,95 @@ android {
 
     defaultConfig {
         applicationId ApplicationID.id
+        testInstrumentationRunner TestLibraries.instrumentationRunner
+            buildConfigField "String", 'BASE_URL', baseUrl
     }
 
     buildTypes {
-        debug {
-            buildConfigField "String", 'BASE_URL', baseUrl
-        }
         release {
-            buildConfigField "String", 'BASE_URL', baseUrl
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    androidExtensions {
+        experimental = true
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation Libraries.kotlin
+    // Firebase
+    implementation Libraries.firebaseAnalytics
+    implementation Libraries.firebaseCore
+    implementation Libraries.firebaseMessaging
+    implementation Libraries.firebaseAuth
+    implementation Libraries.firebaseFirestore
 
-    implementation Libraries.appCompat
-    implementation Libraries.coreKtx
-    implementation Libraries.constraint
+    // Core
+    implementation SupportLibraries.appCompat
+    implementation SupportLibraries.coreKtx
 
-    testImplementation Libraries.junit
-    androidTestImplementation Libraries.extJunit
-    androidTestImplementation Libraries.espresso
-
-    implementation Libraries.navigationFragmentKtx
-    implementation Libraries.navigationKtx
-
+    // DI
     implementation Libraries.dagger
     implementation Libraries.daggerAndroid
     implementation Libraries.daggerAndroidSupport
     kapt Libraries.daggerCompiler
     kapt Libraries.daggerProcessor
-
     implementation Libraries.assistedInject
     kapt Libraries.assistedInjectProcessor
 
+    // Coroutines
+    implementation Libraries.kotlinCoroutines
+
+    // Lifecycle
+    implementation Libraries.lifecycleRuntime
+    implementation Libraries.savedStateViewModel
+
+    // Retrofit2
     implementation Libraries.retrofit
-    implementation Libraries.okhttp
-    implementation Libraries.okhttpInterceptor
     implementation Libraries.gson
+    implementation Libraries.okHttp
+    implementation Libraries.okHttpInterceptor
 
-    debugImplementation Libraries.leakCanary
+    // UI
+    implementation SupportLibraries.material
+    implementation SupportLibraries.recyclerView
+    implementation SupportLibraries.cardView
+    implementation SupportLibraries.constraint
+    implementation SupportLibraries.viewPager2
+    implementation SupportLibraries.swipeRefresh
+    implementation SupportLibraries.expendableLayout
 
-    implementation Libraries.material
+    // Navigation
+    implementation Libraries.navigationFragmentKtx
+    implementation Libraries.navigationKtx
 
+    // Logging
     implementation Libraries.timber
 
-    implementation Libraries.firebaseAnalytics
-    implementation Libraries.firebaseAuth
-    implementation Libraries.firebaseFirestore
+    // LeakCanary
+    debugImplementation Libraries.leakCanary
 
+    // Glide
+    implementation Libraries.glide
+
+    // Testing
+    testImplementation TestLibraries.coroutinesTest
+    testImplementation TestLibraries.coroutinesAndroid
+    testImplementation TestLibraries.coreTesting
+    testImplementation TestLibraries.mockitoInline
+    testImplementation TestLibraries.extJunit
+    kaptTest Libraries.daggerCompiler
+    kaptTest Libraries.daggerProcessor
+    testImplementation TestLibraries.junit
+    testImplementation TestLibraries.mockito
+    testImplementation Libraries.lifecycleKtx
+    androidTestImplementation TestLibraries.testRunner
+    androidTestImplementation TestLibraries.espresso
 }
