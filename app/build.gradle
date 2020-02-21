@@ -40,8 +40,10 @@ dependencies {
     implementation Libraries.firebaseAnalytics
 //    implementation Libraries.firebaseCore
 //    implementation Libraries.firebaseMessaging
+    implementation Libraries.firebaseStorage
     implementation Libraries.firebaseAuth
     implementation Libraries.firebaseFirestore
+    implementation Libraries.firebaseDatabase
 
     // Core
     implementation SupportLibraries.appCompat

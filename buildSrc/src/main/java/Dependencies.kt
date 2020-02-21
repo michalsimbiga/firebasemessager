@@ -27,6 +27,8 @@ object Versions {
     val firebaseMessaging = "20.1.0"
     val firebaseAuth = "19.2.0"
     val firebaseFirestore = "21.4.0"
+    val firebaseStorage = "19.1.1"
+    val firebaseDatabase = "19.2.1"
 
     val appCompat = "1.0.2"
     val core_ktx = "1.0.1"
@@ -84,6 +86,8 @@ object Libraries {
     val firebaseMessaging = "com.google.firebase:firebase-messaging:${Versions.firebaseMessaging}"
     val firebaseAuth = "com.google.firebase:firebase-auth:${Versions.firebaseAuth}"
     val firebaseFirestore = "com.google.firebase:firebase-firestore:${Versions.firebaseFirestore}"
+    val firebaseStorage = "com.google.firebase:firebase-storage:${Versions.firebaseStorage}"
+    val firebaseDatabase = "com.google.firebase:firebase-database:${Versions.firebaseDatabase}"
 
 
     val dagger = "com.google.dagger:dagger:${Versions.dagger}"
