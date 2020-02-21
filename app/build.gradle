@@ -1,24 +1,17 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+apply from: "$rootDir/common-android.gradle"
 apply plugin: 'com.google.gms.google-services'
 
-configurations {
-    ktlint
-}
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion Versions.compileSDK
+
     defaultConfig {
-        applicationId "com.application.firebasemessager"
-        minSdkVersion 23
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId ApplicationID.id
     }
+
     buildTypes {
         debug {
             buildConfigField "String", 'BASE_URL', baseUrl
@@ -29,109 +22,46 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    dataBinding {
-        enabled = true
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    //Core
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.1'
-    implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
+    implementation Libraries.kotlin
 
-    //Dagger 2
-    implementation "com.google.dagger:dagger:2.21"
-    implementation "com.google.dagger:dagger-android:2.21"
-    implementation "com.google.dagger:dagger-android-support:2.21"
-    kapt "com.google.dagger:dagger-compiler:2.21"
-    kapt "com.google.dagger:dagger-android-processor:2.21"
+    implementation Libraries.appCompat
+    implementation Libraries.coreKtx
+    implementation Libraries.constraint
 
-    //Assisted Inject
-    compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:0.3.3"
-    kapt "com.squareup.inject:assisted-inject-processor-dagger2:0.3.3"
+    testImplementation Libraries.junit
+    androidTestImplementation Libraries.extJunit
+    androidTestImplementation Libraries.espresso
 
-    //Lifecycle
-    implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-alpha01"
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01"
-    implementation "androidx.lifecycle:lifecycle-livedata:2.2.0-alpha01"
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-rc01'
+    implementation Libraries.navigationFragmentKtx
+    implementation Libraries.navigationKtx
 
-    // - Adds viewModelScope
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha01"
-    // - Adds liveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha01"
+    implementation Libraries.dagger
+    implementation Libraries.daggerAndroid
+    implementation Libraries.daggerAndroidSupport
+    kapt Libraries.daggerCompiler
+    kapt Libraries.daggerProcessor
 
-    //Retrofit2 for Coroutines
-    implementation "com.squareup.retrofit2:retrofit:2.6.0"
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
-    implementation "com.squareup.okhttp3:okhttp:3.12.0"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
+    implementation Libraries.assistedInject
+    kapt Libraries.assistedInjectProcessor
 
-    //UI
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation "androidx.recyclerview:recyclerview:1.0.0"
-    implementation "androidx.cardview:cardview:1.0.0"
-    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
+    implementation Libraries.retrofit
+    implementation Libraries.okhttp
+    implementation Libraries.okhttpInterceptor
+    implementation Libraries.gson
 
-    //Navigation
-    implementation "androidx.navigation:navigation-runtime-ktx:2.2.0-alpha01"
-    implementation "androidx.navigation:navigation-fragment-ktx:2.2.0-alpha01"
-    implementation "androidx.navigation:navigation-ui-ktx:2.2.0-alpha01"
-    //implementation "androidx.navigation:navigation-safe-args-gradle-plugin:2.2.0-alpha01"
+    debugImplementation Libraries.leakCanary
 
-    // Firebase
-    implementation 'com.google.firebase:firebase-analytics:17.2.2'
-    implementation 'com.google.firebase:firebase-auth:19.2.0'
-    implementation 'com.google.firebase:firebase-firestore:21.4.0'
-    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation Libraries.material
 
-    //Logging
-    implementation "com.jakewharton.timber:timber:4.5.1"
+    implementation Libraries.timber
 
-    //LeakCanary
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-1'
+    implementation Libraries.firebaseAnalytics
+    implementation Libraries.firebaseAuth
+    implementation Libraries.firebaseFirestore
 
-    //Testing
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1'
-    testImplementation "androidx.arch.core:core-testing:2.0.1"
-    testImplementation "com.squareup.okhttp3:mockwebserver:3.12.0"
-
-    kaptTest "com.google.dagger:dagger-compiler:2.21"
-    kaptTest "com.google.dagger:dagger-android-processor:2.21"
-
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.23.0'
-    testImplementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
-
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-
-
-    //KtLint
-    ktlint "com.github.shyiko:ktlint:0.29.0"
-    implementation "me.cassiano:ktlint-html-reporter:0.2.0"
 }
-
-task ktlint(type: JavaExec, group: "verification") {
-    description = "Check Kotlin code style."
-    main = "com.github.shyiko.ktlint.Main"
-    classpath = configurations.ktlint
-    args "src/**/*.kt"
-    args "--reporter=plain"
-    args "--reporter=html,artifact=me.cassiano:ktlint-html-reporter:0.2.0,output=build/reports/ktlint.html"
-}
-
-check.dependsOn(ktlint)
