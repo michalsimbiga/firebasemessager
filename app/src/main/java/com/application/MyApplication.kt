@@ -4,6 +4,7 @@ import android.os.StrictMode
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.application.di.DaggerAppComponent
+import com.google.firebase.FirebaseApp
 import dagger.android.DaggerApplication
 import timber.log.Timber
 import timber.log.Timber.DebugTree

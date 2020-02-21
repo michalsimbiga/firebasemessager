@@ -4,7 +4,7 @@ apply plugin: 'kotlin-allopen'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion Versions.compileSDK
@@ -34,10 +34,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+//    implementation Libraries.googleServices
+
     // Firebase
     implementation Libraries.firebaseAnalytics
-    implementation Libraries.firebaseCore
-    implementation Libraries.firebaseMessaging
+//    implementation Libraries.firebaseCore
+//    implementation Libraries.firebaseMessaging
     implementation Libraries.firebaseAuth
     implementation Libraries.firebaseFirestore
 

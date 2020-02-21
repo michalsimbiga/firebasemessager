@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Username"
-            android:text="@{viewModel.username}" />
+            android:singleLine="true"
+            android:text="@={viewModel.username}" />
 
         <EditText
             android:id="@+id/password"
@@ -27,14 +28,14 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             android:inputType="textPassword"
-            android:text="@{viewModel.password}" />
+            android:text="@={viewModel.password}" />
 
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
-            android:text="@{viewModel.email}" />
+            android:text="@={viewModel.email}" />
 
         <Button
             android:id="@+id/register_button"

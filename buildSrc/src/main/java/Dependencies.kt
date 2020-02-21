@@ -74,6 +74,11 @@ object Versions {
 object Libraries {
     val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
 
+    val googleServices = "com.google.gms:google-services:${Versions.googleServices}"
+    val googleMaps = "com.google.android.gms:play-services-maps:${Versions.googleMaps}"
+    val googleLocation = "com.google.android.gms:play-services-location:${Versions.googleLocations}"
+    val googlePlaces = "com.google.android.libraries.places:places:${Versions.googlePlaces}"
+
     val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
     val firebaseAnalytics = "com.google.firebase:firebase-analytics:${Versions.firebaseAnalytics}"
     val firebaseMessaging = "com.google.firebase:firebase-messaging:${Versions.firebaseMessaging}"
