@@ -4,22 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.application.R
 import com.application.databinding.FragmentLoginBinding
 import com.application.extensions.navigateTo
+import com.application.vm.AssistedViewModelFactory
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
 
 class LoginFragment : DaggerFragment() {
 
-    @Inject
-    lateinit var vmFactory: ViewModelProvider.Factory
+//    @Inject
+//    lateinit var vmFactory: ViewModelProvider.Factory
+//
+//    private val viewModel: LoginViewModel by viewModels { vmFactory }
 
-    private val viewModel: LoginViewModel by viewModels { vmFactory }
+    @Inject
+    lateinit var savedStateVmFactory: AssistedViewModelFactory
+
+    private val viewModel: LoginViewModel by viewModels { savedStateVmFactory }
 
     private lateinit var binding: FragmentLoginBinding
 
@@ -42,10 +47,5 @@ class LoginFragment : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         login_register.setOnClickListener { navigateTo(R.id.register_fragment) }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        login_register.setOnClickListener(null)
     }
 }

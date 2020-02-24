@@ -8,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.application.databinding.RegisterFragmentBinding
 import com.application.extensions.popBackstack
 import com.application.net.MyResult
+import com.application.vm.AssistedViewModelFactory
 import com.bumptech.glide.Glide
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
@@ -24,10 +26,15 @@ import javax.inject.Inject
 
 class RegisterFragment : DaggerFragment() {
 
-    @Inject
-    lateinit var vmFactory: ViewModelProvider.Factory
+//    @Inject
+//    lateinit var vmFactory: ViewModelProvider.Factory
+//
+//    private val viewModel: RegisterViewModel by viewModels { vmFactory }
 
-    private val viewModel: RegisterViewModel by viewModels { vmFactory }
+    @Inject
+    lateinit var savedStateVmFactory: AssistedViewModelFactory
+
+    private val viewModel: RegisterViewModel by viewModels { savedStateVmFactory }
 
     private lateinit var binding: RegisterFragmentBinding
 
@@ -38,6 +45,10 @@ class RegisterFragment : DaggerFragment() {
     ): View? {
 
         binding = RegisterFragmentBinding.inflate(inflater, container, false)
+
+//        val factory = SavedStateViewModelFactory(requireActivity().application, this)
+//
+//        viewModel = ViewModelProvider(this, factory)[RegisterViewModel::class.java]
 
         with(binding) {
             viewModel = this@RegisterFragment.viewModel
@@ -54,7 +65,9 @@ class RegisterFragment : DaggerFragment() {
                 is MyResult.Success -> {
                     Timber.i("TESTING response success ${result.data}")
                 }
-                is MyResult.Failure -> {Timber.i("TESTING response failure ${result.exception}")}
+                is MyResult.Failure -> {
+                    Timber.i("TESTING response failure ${result.exception}")
+                }
                 is MyResult.Loading -> {
                     register_button.isEnabled = result.isLoading.not()
                     Timber.i("TESTING response loading ${result.isLoading}")

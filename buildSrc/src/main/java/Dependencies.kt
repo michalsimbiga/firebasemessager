@@ -51,7 +51,7 @@ object Versions {
 
     val navigation = "2.2.0-alpha01"
     val lifecycle = "2.2.0-alpha01"
-    val savedStateViewModel = "1.0.0-rc01"
+    val savedStateViewModel = "1.0.0-rc03"
 
     val permissionDispatcher = "4.6.0"
     val permissionAnnotation = "4.5.0"

@@ -12,14 +12,19 @@ import dagger.multibindings.IntoMap
 @Module
 class ViewModelModule {
 
-    @Provides
-    @IntoMap
-    @ViewModelKey(RegisterViewModel::class)
-    fun registerViewModel(firebaseAuth: FirebaseAuth): ViewModel = RegisterViewModel(firebaseAuth)
+//    @Provides
+//    @IntoMap
+//    @ViewModelKey(RegisterViewModel::class)
+//    fun registerViewModel(firebaseAuth: FirebaseAuth): ViewModel = RegisterViewModel(firebaseAuth)
 
-    @Provides
-    @IntoMap
-    @ViewModelKey(LoginViewModel::class)
-    fun loginViewModel(): ViewModel = LoginViewModel()
+//    @Provides
+//    @IntoMap
+//    @ViewModelKey(LoginViewModel::class)
+//    fun loginViewModel(): ViewModel = LoginViewModel()
+
+    //    @Provides
+//    @IntoMap
+//    @ViewModelKey(RegisterViewModel::class)
+//    fun registerViewModel(firebaseAuth: FirebaseAuth): ViewModel = RegisterViewModel(firebaseAuth)
 
 }

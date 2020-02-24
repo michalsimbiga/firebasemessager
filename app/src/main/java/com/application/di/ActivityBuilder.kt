@@ -17,10 +17,10 @@ abstract class ActivityBuilder {
             MainModule::class]
     )
     abstract fun bindMainActivity(): MainActivity
-
-    @ContributesAndroidInjector
-    abstract fun bindLoginFragment(): LoginFragment
-
-    @ContributesAndroidInjector
-    abstract fun bindRegisterFragment(): RegisterFragment
+//
+//    @ContributesAndroidInjector
+//    abstract fun bindLoginFragment(): LoginFragment
+//
+//    @ContributesAndroidInjector
+//    abstract fun bindRegisterFragment(): RegisterFragment
 }
