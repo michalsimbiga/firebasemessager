@@ -7,11 +7,7 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class MainActivityModule {
-
-    @ContributesAndroidInjector
-    abstract fun bindRegisterFragment(): RegisterFragment
-
-
-    @ContributesAndroidInjector
-    abstract fun bindLoginFragment(): LoginFragment
+//
+//    @ContributesAndroidInjector
+//    abstract fun bindRegisterFragment(): RegisterFragment
 }

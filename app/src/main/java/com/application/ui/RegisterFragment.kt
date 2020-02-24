@@ -8,19 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.SavedStateViewModelFactory
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.application.databinding.RegisterFragmentBinding
 import com.application.extensions.popBackstack
 import com.application.net.MyResult
 import com.application.vm.AssistedViewModelFactory
 import com.bumptech.glide.Glide
-import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.register_fragment.*
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 

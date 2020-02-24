@@ -19,7 +19,7 @@
             android:id="@+id/login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.username}"
+            android:text="@{viewModel.loginUsername}"
             android:hint="Username" />
 
         <EditText
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            android:text="@{viewModel.password}"
+            android:text="@{viewModel.loginPassword}"
             android:inputType="textPassword" />
 
         <Button

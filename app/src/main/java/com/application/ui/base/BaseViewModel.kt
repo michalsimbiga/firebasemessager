@@ -14,7 +14,6 @@ typealias responseReceiver<T> = (MyResult<T>) -> Unit
 
 abstract class BaseViewModel : ViewModel() {
 
-
     private val loadingTrue = MyResult.Loading(isLoading = true)
     private val loadingFalse = MyResult.Loading(isLoading = false)
 

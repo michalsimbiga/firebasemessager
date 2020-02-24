@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.application.di.module.ViewModelAssistedFactory
+import com.application.extensions.delegate
 import com.application.extensions.empty
 import com.application.net.MyResult
 import com.application.net.failure
@@ -17,6 +18,8 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import timber.log.Timber
 import java.util.*
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 class RegisterViewModel @AssistedInject constructor(
     private val firebaseAuth: FirebaseAuth,
@@ -26,15 +29,26 @@ class RegisterViewModel @AssistedInject constructor(
     @AssistedInject.Factory
     interface Factory : ViewModelAssistedFactory<RegisterViewModel>
 
-    var username: String = String.empty
-    var password: String = String.empty
-    var email: String = String.empty
+//    inner class SavedStateDelegate(private val defaultVal: String) {
+//        operator fun getValue(thisRef: Any, property: KProperty<*>): String {
+////            val stateKey = property.name
+//            return stateHandle.get(property.name) ?: defaultVal
+//        }
+//
+//        operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String?) {
+//            stateHandle.set(property.name, value)
+//        }
+//    }
+
+    var username: String by stateHandle.delegate(String.empty)
+    var password: String by stateHandle.delegate(String.empty)
+    var email: String by stateHandle.delegate(String.empty)
 
     var photoUri: Uri? = null
     var photoUrl: String? = null
 
     init {
-        Timber.i("TESTING RegisterViewModel init invoked")
+        Timber.i("TESTING login view model saved state : $stateHandle ${stateHandle.keys()}")
     }
 
     private val _response = MutableLiveData<MyResult<*>>()
@@ -45,7 +59,7 @@ class RegisterViewModel @AssistedInject constructor(
     }
 
     fun register() {
-        Timber.i("TESTING username: $username password: $password")
+        Timber.i("TESTING loginUsername: $username loginPassword: $password")
         if (email.isEmpty() or password.isEmpty()) return
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
