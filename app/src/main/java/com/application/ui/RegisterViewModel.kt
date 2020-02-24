@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.application.extensions.empty
 import com.application.net.MyResult
+import com.application.net.failure
 import com.application.net.success
 import com.application.ui.base.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -25,12 +26,21 @@ class RegisterViewModel(private val firebaseAuth: FirebaseAuth) : BaseViewModel(
     private val _response = MutableLiveData<MyResult<*>>()
     val responseLiveData: LiveData<MyResult<*>> = _response
 
+    private fun setResponseFailure(message: String?) {
+        _response.value = failure(Exception(), message ?: String.empty)
+    }
+
     fun register() {
         Timber.i("TESTING username: $username password: $password")
         if (email.isEmpty() or password.isEmpty()) return
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener { uploadImageToFirebaseStorage() }
+            .addOnCompleteListener {
+                Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ")
+                Timber.i("TESTING result ${it.result.toString()}")
+            }
+            .addOnFailureListener { setResponseFailure(it.message) }
     }
 
     fun uploadImageToFirebaseStorage() {
@@ -40,13 +50,25 @@ class RegisterViewModel(private val firebaseAuth: FirebaseAuth) : BaseViewModel(
             val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
 
             ref.putFile(photoUri!!)
+                .addOnCompleteListener {
+                    Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ")
+                    Timber.i("TESTING result ${it.result.toString()} ")
+                }
+                .addOnFailureListener { setResponseFailure(it.message) }
                 .addOnSuccessListener {
-                    photoUrl = it.metadata?.path
-                    Timber.i("TESTING photo ${it.metadata}")
-                    Timber.i("TESTING photo ${it.metadata?.path}")
-                    Timber.i("TESTING photo ${it.metadata?.bucket}")
+                    photoUrl = it.uploadSessionUri.toString()
                     saveUserToFirebaseDatabase()
                 }
+                .addOnCompleteListener { Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ") }
+                .addOnFailureListener { setResponseFailure(it.message) }
+
+//                    ref.downloadUrl.addOnSuccessListener {
+//                        photoUrl = it.toString()
+//                        Timber.i("TESTING photoUrl $photoUrl")
+//                        saveUserToFirebaseDatabase()
+//                    }
+//                        .addOnCompleteListener { Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ") }
+//                        .addOnFailureListener { setResponseFailure(it.message) }
         }
     }
 
@@ -56,7 +78,8 @@ class RegisterViewModel(private val firebaseAuth: FirebaseAuth) : BaseViewModel(
             .addOnSuccessListener {
                 _response.postValue(success(Unit))
             }
-
+            .addOnCompleteListener { Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ") }
+            .addOnFailureListener { setResponseFailure(it.message) }
     }
 }
 

@@ -43,4 +43,9 @@ class LoginFragment : DaggerFragment() {
 
         login_register.setOnClickListener { navigateTo(R.id.register_fragment) }
     }
+
+    override fun onDetach() {
+        super.onDetach()
+        login_register.setOnClickListener(null)
+    }
 }

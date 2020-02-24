@@ -54,9 +54,7 @@ class RegisterFragment : DaggerFragment() {
                 is MyResult.Success -> {
                     Timber.i("TESTING response success ${result.data}")
                 }
-                is MyResult.Failure -> {
-                    Timber.i("TESTING response failure ${result.exception}")
-                }
+                is MyResult.Failure -> {Timber.i("TESTING response failure ${result.exception}")}
                 is MyResult.Loading -> {
                     register_button.isEnabled = result.isLoading.not()
                     Timber.i("TESTING response loading ${result.isLoading}")
