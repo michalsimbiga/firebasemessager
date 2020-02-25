@@ -39,24 +39,33 @@ class RegisterViewModel @AssistedInject constructor(
     val responseLiveData: LiveData<MyResult<*>> = _response
 
     private fun setResponseFailure(message: String?) {
-        val failure = failure(Exception(), message ?: String.empty)
-        Timber.i("TESTING setResponseFailure ${failure.message}")
-        _response.value = failure
+        _response.value = failure(Exception(message))
     }
 
     fun register() {
-        Timber.i("TESTING loginUsername: $username loginPassword: $password")
         if (email.isEmpty() or password.isEmpty()) return
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                Timber.i("TESTING register onSuccess ${it.user} ")
-                uploadImageToFirebaseStorage() }
-            .addOnFailureListener {
-                Timber.i("TESTING register onFailure ${it.message} ")
-                setResponseFailure(it.localizedMessage) }
+            .addOnCompleteListener {
+                if (it.isSuccessful) uploadImageToFirebaseStorage()
+                else setResponseFailure(it.exception?.localizedMessage)
+            }
 
+//        executeFirebase(
+//            receiver = { response: MyResult<*> -> _response.value = response },
+//            request = { firebaseAuth.createUserWithEmailAndPassword(email, password) }
+//        )
     }
+
+//    fun <T : Any> MyResult<T>.doOn(
+//        successCallback: () -> Unit,
+//        failureCallback: () -> Unit
+//    ) {
+//        when(this) {
+//            is MyResult.Success -> successCallback()
+//            is MyResult.Failure -> failureCallback()
+//        }
+//    }
 
     fun uploadImageToFirebaseStorage() {
         if (photoUri != null) {

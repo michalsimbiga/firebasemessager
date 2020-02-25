@@ -26,25 +26,20 @@ abstract class BaseViewModel : ViewModel() {
         handleResult(result, receiver)
     }
 
-//    fun <T : Any> executeFirebase(
-//        receiver: responseReceiver<T>,
-//        request: suspend (() -> (Task<T>))
-//    ) = viewModelScope.launch(Dispatchers.Main) {
-//        receiver(loadingTrue)
-//        withContext(Dispatchers.IO) {
-//            request()
-//                .addOnCompleteListener {
-//                    if (it.isSuccessful) {
-//                        receiver(loadingFalse)
-//                        receiver(success(it.result as T))
-//                    }
-//                }
-//                .addOnFailureListener {
-//                    receiver(loadingFalse)
-//                    receiver(failure(it))
-//                }
-//        }
-//    }
+    fun <T : Any> executeFirebase(
+        receiver: responseReceiver<T>,
+        request: suspend (() -> (Task<T>))
+    ) = viewModelScope.launch(Dispatchers.Main) {
+        receiver(loadingTrue)
+        withContext(Dispatchers.IO) {
+            request()
+                .addOnCompleteListener {
+                    receiver(loadingFalse)
+                    if (it.isSuccessful) receiver(success(it.result as T))
+                    else receiver(failure(it.exception!!))
+                }
+        }
+    }
 
     private fun <T : Any> handleResult(
         result: MyResult<T>,
