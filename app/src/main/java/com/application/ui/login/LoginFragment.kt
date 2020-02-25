@@ -8,12 +8,13 @@ import androidx.fragment.app.viewModels
 import com.application.R
 import com.application.databinding.FragmentLoginBinding
 import com.application.extensions.navigateTo
+import com.application.ui.base.BaseFragment
 import com.application.vm.AssistedViewModelFactory
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
 
-class LoginFragment : DaggerFragment() {
+class LoginFragment : BaseFragment() {
 
     @Inject
     lateinit var savedStateVmFactory: AssistedViewModelFactory

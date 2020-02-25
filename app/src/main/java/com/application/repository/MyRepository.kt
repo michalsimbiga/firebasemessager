@@ -1,7 +1,5 @@
 package com.application.repository
 
-import com.application.model.Joke
-import com.application.net.MyResult
 import com.application.net.RestApi
 
 @Suppress("UNCHECKED_CAST")

@@ -10,5 +10,5 @@ sealed class MyResult<out T : Any> {
 }
 
 fun <T : Any> success(data: T) = MyResult.Success(data)
-fun failure(exception: java.lang.Exception, message: String = String.empty) =
+fun failure(exception: Exception, message: String = String.empty) =
     MyResult.Failure(exception, message)

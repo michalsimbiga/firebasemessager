@@ -2,14 +2,9 @@ package com.application.ui
 
 import androidx.lifecycle.*
 import com.application.di.module.ViewModelAssistedFactory
-import com.application.model.Joke
-import com.application.net.MyResult
 import com.application.repository.MyRepository
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainViewModel @AssistedInject constructor(
     private val repository: MyRepository,

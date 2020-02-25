@@ -11,14 +11,14 @@ import androidx.lifecycle.Observer
 import com.application.databinding.FragmentRegisterBinding
 import com.application.extensions.popBackstack
 import com.application.net.MyResult
+import com.application.ui.base.BaseFragment
 import com.application.vm.AssistedViewModelFactory
 import com.bumptech.glide.Glide
-import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_register.*
 import timber.log.Timber
 import javax.inject.Inject
 
-class RegisterFragment : DaggerFragment() {
+class RegisterFragment : BaseFragment() {
 
     @Inject
     lateinit var savedStateVmFactory: AssistedViewModelFactory
@@ -46,12 +46,8 @@ class RegisterFragment : DaggerFragment() {
 
         viewModel.responseLiveData.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
-                is MyResult.Success -> {
-                    Timber.i("TESTING response success ${result.data}")
-                }
-                is MyResult.Failure -> {
-                    Timber.i("TESTING response failure ${result.exception}")
-                }
+                is MyResult.Success -> Timber.i("TESTING response success ${result.data}")
+                is MyResult.Failure -> Timber.i("TESTING response failure ${result.exception}")
                 is MyResult.Loading -> {
                     register_button.isEnabled = result.isLoading.not()
                     Timber.i("TESTING response loading ${result.isLoading}")
@@ -66,7 +62,8 @@ class RegisterFragment : DaggerFragment() {
 
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
-            startActivityForResult(intent,
+            startActivityForResult(
+                intent,
                 PHOTO_SELECT_REQUEST_CODE
             )
         }

@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.application.di.module.ViewModelAssistedFactory
 import com.application.extensions.delegate
 import com.application.extensions.empty
+import com.application.model.User
 import com.application.net.MyResult
 import com.application.net.failure
 import com.application.net.success
@@ -34,15 +35,13 @@ class RegisterViewModel @AssistedInject constructor(
     var photoUri: Uri? = null
     var photoUrl: String? = null
 
-    init {
-        Timber.i("TESTING login view model saved state : $stateHandle ${stateHandle.keys()}")
-    }
-
     private val _response = MutableLiveData<MyResult<*>>()
     val responseLiveData: LiveData<MyResult<*>> = _response
 
     private fun setResponseFailure(message: String?) {
-        _response.value = failure(Exception(), message ?: String.empty)
+        val failure = failure(Exception(), message ?: String.empty)
+        Timber.i("TESTING setResponseFailure ${failure.message}")
+        _response.value = failure
     }
 
     fun register() {
@@ -50,12 +49,13 @@ class RegisterViewModel @AssistedInject constructor(
         if (email.isEmpty() or password.isEmpty()) return
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener { uploadImageToFirebaseStorage() }
-            .addOnCompleteListener {
-                Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ")
-                Timber.i("TESTING result ${it.result.toString()}")
-            }
-            .addOnFailureListener { setResponseFailure(it.message) }
+            .addOnSuccessListener {
+                Timber.i("TESTING register onSuccess ${it.user} ")
+                uploadImageToFirebaseStorage() }
+            .addOnFailureListener {
+                Timber.i("TESTING register onFailure ${it.message} ")
+                setResponseFailure(it.localizedMessage) }
+
     }
 
     fun uploadImageToFirebaseStorage() {
@@ -69,14 +69,16 @@ class RegisterViewModel @AssistedInject constructor(
                     Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ")
                     Timber.i("TESTING result ${it.result.toString()} ")
                 }
-                .addOnFailureListener { setResponseFailure(it.message) }
+                .addOnFailureListener { setResponseFailure(it.localizedMessage) }
                 .addOnSuccessListener {
-                    photoUrl = ref.downloadUrl.result.toString()
-                    Timber.i("TESTING photoUrl $photoUrl")
-                    saveUserToFirebaseDatabase()
+                    ref.downloadUrl.addOnSuccessListener { uri ->
+                        photoUrl = uri.toString()
+                        Timber.i("TESTING photoUrl $photoUrl")
+                        saveUserToFirebaseDatabase()
+                    }
                 }
                 .addOnCompleteListener { Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ") }
-                .addOnFailureListener { setResponseFailure(it.message) }
+                .addOnFailureListener { setResponseFailure(it.localizedMessage) }
 
 //                    ref.downloadUrl.addOnSuccessListener {
 //                        photoUrl = it.toString()
@@ -96,9 +98,3 @@ class RegisterViewModel @AssistedInject constructor(
             .addOnFailureListener { setResponseFailure(it.message) }
     }
 }
-
-data class User(
-    val username: String,
-    val email: String,
-    val profileImage: String
-)
