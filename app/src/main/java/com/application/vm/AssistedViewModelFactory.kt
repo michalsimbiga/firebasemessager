@@ -7,6 +7,7 @@ import androidx.savedstate.SavedStateRegistryOwner
 import com.application.di.module.ViewModelAssistedFactory
 import javax.inject.Inject
 
+@Suppress("UNCHECKED_CAST")
 class AssistedViewModelFactory @Inject constructor(
     private val viewModelMap: MutableMap<Class<out ViewModel>, ViewModelAssistedFactory<out ViewModel>>,
     owner: SavedStateRegistryOwner
