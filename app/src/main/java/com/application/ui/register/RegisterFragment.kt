@@ -1,4 +1,4 @@
-package com.application.ui
+package com.application.ui.register
 
 import android.app.Activity
 import android.content.Intent
@@ -8,41 +8,31 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.application.databinding.RegisterFragmentBinding
+import com.application.databinding.FragmentRegisterBinding
 import com.application.extensions.popBackstack
 import com.application.net.MyResult
 import com.application.vm.AssistedViewModelFactory
 import com.bumptech.glide.Glide
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.register_fragment.*
+import kotlinx.android.synthetic.main.fragment_register.*
 import timber.log.Timber
 import javax.inject.Inject
 
 class RegisterFragment : DaggerFragment() {
-
-//    @Inject
-//    lateinit var vmFactory: ViewModelProvider.Factory
-//
-//    private val viewModel: RegisterViewModel by viewModels { vmFactory }
 
     @Inject
     lateinit var savedStateVmFactory: AssistedViewModelFactory
 
     private val viewModel: RegisterViewModel by viewModels { savedStateVmFactory }
 
-    private lateinit var binding: RegisterFragmentBinding
+    private lateinit var binding: FragmentRegisterBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        binding = RegisterFragmentBinding.inflate(inflater, container, false)
-
-//        val factory = SavedStateViewModelFactory(requireActivity().application, this)
-//
-//        viewModel = ViewModelProvider(this, factory)[RegisterViewModel::class.java]
+        binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
         with(binding) {
             viewModel = this@RegisterFragment.viewModel
@@ -76,7 +66,9 @@ class RegisterFragment : DaggerFragment() {
 
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
-            startActivityForResult(intent, PHOTO_SELECT_REQUEST_CODE)
+            startActivityForResult(intent,
+                PHOTO_SELECT_REQUEST_CODE
+            )
         }
     }
 

@@ -1,7 +1,6 @@
-package com.application.ui
+package com.application.ui.login
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import com.application.di.module.ViewModelAssistedFactory
 import com.application.extensions.delegate
 import com.application.extensions.empty

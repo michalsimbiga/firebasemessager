@@ -1,4 +1,4 @@
-package com.application.ui
+package com.application.ui.register
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
@@ -18,8 +18,6 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import timber.log.Timber
 import java.util.*
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
 
 class RegisterViewModel @AssistedInject constructor(
     private val firebaseAuth: FirebaseAuth,
@@ -28,17 +26,6 @@ class RegisterViewModel @AssistedInject constructor(
 
     @AssistedInject.Factory
     interface Factory : ViewModelAssistedFactory<RegisterViewModel>
-
-//    inner class SavedStateDelegate(private val defaultVal: String) {
-//        operator fun getValue(thisRef: Any, property: KProperty<*>): String {
-////            val stateKey = property.name
-//            return stateHandle.get(property.name) ?: defaultVal
-//        }
-//
-//        operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String?) {
-//            stateHandle.set(property.name, value)
-//        }
-//    }
 
     var username: String by stateHandle.delegate(String.empty)
     var password: String by stateHandle.delegate(String.empty)
@@ -84,7 +71,8 @@ class RegisterViewModel @AssistedInject constructor(
                 }
                 .addOnFailureListener { setResponseFailure(it.message) }
                 .addOnSuccessListener {
-                    photoUrl = it.uploadSessionUri.toString()
+                    photoUrl = ref.downloadUrl.result.toString()
+                    Timber.i("TESTING photoUrl $photoUrl")
                     saveUserToFirebaseDatabase()
                 }
                 .addOnCompleteListener { Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ") }
@@ -103,9 +91,7 @@ class RegisterViewModel @AssistedInject constructor(
     fun saveUserToFirebaseDatabase() {
         val ref = FirebaseDatabase.getInstance().getReference("/users/${firebaseAuth.uid}")
         ref.setValue(User(username, email, photoUrl!!))
-            .addOnSuccessListener {
-                _response.postValue(success(Unit))
-            }
+            .addOnSuccessListener { _response.postValue(success(Unit)) }
             .addOnCompleteListener { Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ") }
             .addOnFailureListener { setResponseFailure(it.message) }
     }
