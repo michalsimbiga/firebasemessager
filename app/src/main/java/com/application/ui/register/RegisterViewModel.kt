@@ -75,35 +75,24 @@ class RegisterViewModel @AssistedInject constructor(
 
             ref.putFile(photoUri!!)
                 .addOnCompleteListener {
-                    Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ")
-                    Timber.i("TESTING result ${it.result.toString()} ")
-                }
-                .addOnFailureListener { setResponseFailure(it.localizedMessage) }
-                .addOnSuccessListener {
-                    ref.downloadUrl.addOnSuccessListener { uri ->
-                        photoUrl = uri.toString()
-                        Timber.i("TESTING photoUrl $photoUrl")
-                        saveUserToFirebaseDatabase()
+                    if (it.isSuccessful) {
+                        ref.downloadUrl.addOnSuccessListener { uri ->
+                            photoUrl = uri.toString()
+                            Timber.i("TESTING photoUrl $photoUrl")
+                            saveUserToFirebaseDatabase()
+                        }
                     }
+                    else setResponseFailure(it.exception?.localizedMessage)
                 }
-                .addOnCompleteListener { Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ") }
-                .addOnFailureListener { setResponseFailure(it.localizedMessage) }
-
-//                    ref.downloadUrl.addOnSuccessListener {
-//                        photoUrl = it.toString()
-//                        Timber.i("TESTING photoUrl $photoUrl")
-//                        saveUserToFirebaseDatabase()
-//                    }
-//                        .addOnCompleteListener { Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ") }
-//                        .addOnFailureListener { setResponseFailure(it.message) }
         }
     }
 
     fun saveUserToFirebaseDatabase() {
-        val ref = FirebaseDatabase.getInstance().getReference("/users/${firebaseAuth.uid}")
-        ref.setValue(User(username, email, photoUrl!!))
-            .addOnSuccessListener { _response.postValue(success(Unit)) }
-            .addOnCompleteListener { Timber.i("TESTING onComplete ${it.javaClass.enclosingMethod?.name} ") }
-            .addOnFailureListener { setResponseFailure(it.message) }
+        val dbReference = FirebaseDatabase.getInstance().getReference("/users/${firebaseAuth.uid}")
+        dbReference.setValue(User(username, email, photoUrl!!))
+            .addOnCompleteListener {
+                if (it.isSuccessful) _response.postValue(success(Unit))
+                else setResponseFailure(it.exception?.localizedMessage)
+            }
     }
 }
