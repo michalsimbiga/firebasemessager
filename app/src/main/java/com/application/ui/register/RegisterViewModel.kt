@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.application.di.module.ViewModelAssistedFactory
 import com.application.domain.usecase.CreateUserWithEmailAndPasswordUseCase
+import com.application.domain.usecase.UploadImageToFirebaseStorageUseCase
 import com.application.extensions.delegate
 import com.application.extensions.empty
 import com.application.model.User
@@ -26,6 +27,7 @@ import java.util.*
 class RegisterViewModel @AssistedInject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val createUserWithEmailAndPasswordUseCase: CreateUserWithEmailAndPasswordUseCase,
+    private val uploadImageToFirebaseStorageUseCase: UploadImageToFirebaseStorageUseCase,
     @Assisted private val stateHandle: SavedStateHandle
 ) : BaseViewModel() {
 
@@ -35,9 +37,8 @@ class RegisterViewModel @AssistedInject constructor(
     var username: String by stateHandle.delegate(String.empty)
     var password: String by stateHandle.delegate(String.empty)
     var email: String by stateHandle.delegate(String.empty)
-
-    var photoUri: Uri? = null
-    var photoUrl: String? = null
+    var photoUri: Uri by stateHandle.delegate(Uri.EMPTY)
+    var photoUrl: String by stateHandle.delegate(String.empty)
 
     private val _response = MutableLiveData<MyResult<*>>()
     val responseLiveData: LiveData<MyResult<*>> = _response
@@ -66,32 +67,18 @@ class RegisterViewModel @AssistedInject constructor(
     }
 
     private fun uploadImageToFirebaseStorage() {
-        Timber.i("TESTING uploadImageToFirebaseStorage")
-        if (photoUri != null) {
 
-            Timber.i("TESTING uploadImageToFirebaseStorage ok")
-
-            val filename = UUID.randomUUID().toString()
-            val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-
-            executeFirebase(
-                onSuccessReceiver = { retrieveImageUrl(ref) },
-                onFailureReceiver = { exception -> setResponseFailure(exception.localizedMessage) },
-                request = { ref.putFile(photoUri!!) }
-            )
-        }
-    }
-
-    private fun retrieveImageUrl(storageReference: StorageReference) {
-        Timber.i("TESTING retrieveImageUrl ")
-        executeFirebase(
-            onSuccessReceiver = { uri ->
-                Timber.i("TESTING retrieveImageUlr success ${uri}")
-                photoUrl = uri.toString()
-                saveUserToFirebaseDatabase()
-            },
-            onFailureReceiver = { exception -> setResponseFailure(exception.localizedMessage) },
-            request = { storageReference.downloadUrl }
+        uploadImageToFirebaseStorageUseCase.execute(
+            params = UploadImageToFirebaseStorageUseCase.Params(photoUri),
+            stateReducer = { result ->
+                when (result) {
+                    is MyResult.Success -> {
+                        photoUrl = result.data
+                        saveUserToFirebaseDatabase()
+                    }
+                    is MyResult.Failure -> setResponseFailure(result.message)
+                }
+            }
         )
     }
 

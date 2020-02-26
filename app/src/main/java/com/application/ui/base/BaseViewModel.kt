@@ -19,14 +19,14 @@ abstract class BaseViewModel : ViewModel() {
     private val loadingTrue = MyResult.Loading(isLoading = true)
     private val loadingFalse = MyResult.Loading(isLoading = false)
 
-    fun <T : Any> execute(
-        receiver: responseReceiver<T>,
-        request: suspend (() -> (MyResult<T>))
-    ) = viewModelScope.launch(Dispatchers.Main) {
-        receiver(loadingTrue)
-        val result = withContext(Dispatchers.IO) { request() }
-        handleResult(result, receiver)
-    }
+//    fun <T : Any> execute(
+//        receiver: responseReceiver<T>,
+//        request: suspend (() -> (MyResult<T>))
+//    ) = viewModelScope.launch(Dispatchers.Main) {
+//        receiver(loadingTrue)
+//        val result = withContext(Dispatchers.IO) { request() }
+//        handleResult(result, receiver)
+//    }
 
     fun <T : Any, I> UseCase<T, I>.execute(
         params: I,

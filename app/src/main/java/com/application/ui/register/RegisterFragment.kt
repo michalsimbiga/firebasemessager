@@ -2,6 +2,7 @@ package com.application.ui.register
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -73,7 +74,7 @@ class RegisterFragment : BaseFragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == PHOTO_SELECT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            viewModel.photoUri = data?.data
+            viewModel.photoUri = data?.data ?: Uri.EMPTY
             showUserPicture()
         }
     }
