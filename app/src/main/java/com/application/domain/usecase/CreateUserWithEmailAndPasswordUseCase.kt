@@ -6,9 +6,9 @@ import com.application.repository.AuthenticationRepositoryImpl
 
 class CreateUserWithEmailAndPasswordUseCase(
     private val authRepo: AuthenticationRepositoryImpl
-): UseCase<Unit, CreateUserWithEmailAndPasswordUseCase.Params>(){
+): UseCase<Any, CreateUserWithEmailAndPasswordUseCase.Params>(){
 
-    override suspend fun run(params: Params): MyResult<Unit> =
+    override suspend fun run(params: Params): MyResult<Any> =
         authRepo.createUserWithEmailAndPassword(params.email, params.password)
 
     data class Params(

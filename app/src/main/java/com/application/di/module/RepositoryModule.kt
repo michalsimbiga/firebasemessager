@@ -10,13 +10,13 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-abstract class RepositoryModule {
+class RepositoryModule {
 
-    @Binds
+    @Provides
     @Singleton
-    abstract fun provideRepository(restApi: RestApi): MyRepository
+    fun provideRepository(restApi: RestApi): MyRepository = MyRepository(restApi)
 
-    @Binds
+    @Provides
     @Singleton
-    abstract fun provideAuthRepository(firebaseAuth: FirebaseAuth): AuthenticationRepositoryImpl
+    fun provideAuthRepository(firebaseAuth: FirebaseAuth): AuthenticationRepositoryImpl = AuthenticationRepositoryImpl(firebaseAuth)
 }

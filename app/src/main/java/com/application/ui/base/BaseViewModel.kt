@@ -27,14 +27,13 @@ abstract class BaseViewModel : ViewModel() {
         val result = withContext(Dispatchers.IO) { request() }
         handleResult(result, receiver)
     }
-//
-//    fun <T : Any, V, I> UseCase<T, I>.execute(
-//        params: I,
-//        mapper: ((T) -> V),
-//        stateReducer: () -> Unit
-//    ) {
-//        this.invoke(viewModelJob, params) { result -> handleResult(result, mapper, stateReducer) }
-//    }
+
+    fun <T : Any, I> UseCase<T, I>.execute(
+        params: I,
+        stateReducer: (MyResult<T>) -> Unit
+    ) {
+        this.invoke(viewModelJob, params) { result -> stateReducer(result) }
+    }
 
     fun <T : Any> executeFirebase(
         receiver: responseReceiver<T>,

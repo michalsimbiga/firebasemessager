@@ -4,10 +4,12 @@ import com.application.domain.usecase.CreateUserWithEmailAndPasswordUseCase
 import com.application.repository.AuthenticationRepositoryImpl
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 
 @Module
-abstract class UseCaseModule {
+class UseCaseModule {
 
-    @Binds
-    abstract fun bindCreateUserWithEmailAndPasswordUseCase(authRepo: AuthenticationRepositoryImpl): CreateUserWithEmailAndPasswordUseCase
+    @Provides
+    fun bindCreateUserWithEmailAndPasswordUseCase(authRepo: AuthenticationRepositoryImpl):
+            CreateUserWithEmailAndPasswordUseCase = CreateUserWithEmailAndPasswordUseCase(authRepo)
 }

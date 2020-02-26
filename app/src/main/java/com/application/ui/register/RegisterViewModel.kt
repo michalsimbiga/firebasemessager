@@ -43,6 +43,7 @@ class RegisterViewModel @AssistedInject constructor(
     val responseLiveData: LiveData<MyResult<*>> = _response
 
     private fun setResponseFailure(message: String?) {
+        _response.value = MyResult.Loading(false)
         _response.value = failure(Exception(message))
     }
 
@@ -53,19 +54,15 @@ class RegisterViewModel @AssistedInject constructor(
 
         _response.value = MyResult.Loading(true)
 
-        val result = createUserWithEmailAndPasswordUseCase.invoke(
-            viewModelJob,
-            CreateUserWithEmailAndPasswordUseCase.Params(email, password)
+        createUserWithEmailAndPasswordUseCase.execute(
+            params = CreateUserWithEmailAndPasswordUseCase.Params(email, password),
+            stateReducer = { result ->
+                when (result) {
+                    is MyResult.Success -> uploadImageToFirebaseStorage()
+                    is MyResult.Failure -> setResponseFailure(result.message)
+                }
+            }
         )
-
-        Timber.i("TESTING register job $result")
-
-
-//        executeFirebase(
-//            onSuccessReceiver = { uploadImageToFirebaseStorage() },
-//            onFailureReceiver = { exception -> setResponseFailure(exception.localizedMessage) },
-//            request = { firebaseAuth.createUserWithEmailAndPassword(email, password) }
-//        )
     }
 
     private fun uploadImageToFirebaseStorage() {
