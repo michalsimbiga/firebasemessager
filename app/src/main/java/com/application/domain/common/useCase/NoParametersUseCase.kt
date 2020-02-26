@@ -33,9 +33,6 @@ abstract class NoParametersUseCase<out Type>(
 
     abstract suspend fun run(): MyResult<Type>
 
-    /**
-     * @see UseCase.invoke
-     */
     operator fun invoke(parentJob: Job = Job(), onResult: (MyResult<Type>) -> Unit = {}) {
         CoroutineScope(backgroundContext + parentJob).launch {
             val result = run()
@@ -44,9 +41,4 @@ abstract class NoParametersUseCase<out Type>(
             }
         }
     }
-}
-
-fun <T : NoParametersUseCase<*>> T.makeUnconfined() = apply {
-    backgroundContext = Dispatchers.Unconfined
-    foregroundContext = Dispatchers.Unconfined
 }

@@ -30,13 +30,6 @@ abstract class UseCase<out Type, in Params>(
 
     abstract suspend fun run(params: Params): MyResult<Type>
 
-    /**
-     * Invokes the use case
-     *
-     * You can scope the work by passing the coroutine job from parent
-     *
-     * @param parentJob - parent coroutine Job, useful when you are calling this from ViewModel
-     */
     operator fun invoke(parentJob: Job = Job(), params: Params, onResult: (MyResult<Type>) -> Unit = {}) {
         CoroutineScope(backgroundContext + parentJob).launch {
             val result = run(params)
@@ -45,9 +38,4 @@ abstract class UseCase<out Type, in Params>(
             }
         }
     }
-}
-
-fun <T : UseCase<*, *>> T.makeUnconfined() = apply {
-    backgroundContext = Dispatchers.Unconfined
-    foregroundContext = Dispatchers.Unconfined
 }

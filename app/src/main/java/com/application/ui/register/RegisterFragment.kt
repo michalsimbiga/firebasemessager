@@ -59,15 +59,17 @@ class RegisterFragment : BaseFragment() {
         register_login.setOnClickListener { popBackstack() }
         register_button.setOnClickListener { viewModel.register() }
 
-        user_image.setOnClickListener {
+        user_image.setOnClickListener { startPhotoPicker() }
+    }
 
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(
-                intent,
-                PHOTO_SELECT_REQUEST_CODE
-            )
+    private fun startPhotoPicker() {
+        val intent = Intent(Intent.ACTION_PICK).apply {
+            type = "image/*"
         }
+        startActivityForResult(
+            intent,
+            PHOTO_SELECT_REQUEST_CODE
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

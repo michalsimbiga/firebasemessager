@@ -45,26 +45,26 @@ class RegisterViewModel @AssistedInject constructor(
     private val _response = MutableLiveData<MyResult<*>>()
     val responseLiveData: LiveData<MyResult<*>> = _response
 
-    private fun setResponseFailure(message: String?) = with(_response){
+    private fun setResponseFailure(message: String?) = with(_response) {
         value = MyResult.Loading(false)
         value = failure(Exception(message))
     }
 
-    private fun doOnSuccess(result: MyResult<Any>, callback: () -> Unit) {
-        when (result) {
+    private fun <T : Any> MyResult<T>.doOnSuccess(callback: () -> Unit) {
+        when (this) {
             is MyResult.Success -> callback()
-            is MyResult.Failure -> setResponseFailure(result.message)
+            is MyResult.Failure -> setResponseFailure(this.message)
         }
     }
 
     fun register() {
-         if (email.isEmpty() or password.isEmpty()) return
+        if (email.isEmpty() or password.isEmpty()) return
 
         _response.value = MyResult.Loading(true)
 
         createUserWithEmailAndPasswordUseCase.execute(
             params = CreateUserWithEmailAndPasswordUseCase.Params(email, password),
-            stateReducer = { result -> doOnSuccess(result) { uploadImageToFirebaseStorage() } }
+            stateReducer = { result -> result.doOnSuccess { uploadImageToFirebaseStorage() } }
         )
     }
 
@@ -72,7 +72,7 @@ class RegisterViewModel @AssistedInject constructor(
         uploadImageToFirebaseStorageUseCase.execute(
             params = UploadImageToFirebaseStorageUseCase.Params(photoUri),
             stateReducer = { result ->
-                doOnSuccess(result) {
+                result.doOnSuccess {
                     photoUrl = result.toString()
                     saveUserToFirebaseDatabase()
                 }
@@ -83,7 +83,7 @@ class RegisterViewModel @AssistedInject constructor(
     private fun saveUserToFirebaseDatabase() {
         saveUserToFirebaseDatabaseUseCase.execute(
             params = SaveUserToFirebaseDatabaseUseCase.Params(username, email, photoUrl),
-            stateReducer = { result -> doOnSuccess(result) { _response.value = success(Unit) } }
+            stateReducer = { result -> result.doOnSuccess { _response.value = success(Unit) } }
         )
     }
 }
