@@ -45,9 +45,9 @@ class RegisterViewModel @AssistedInject constructor(
     private val _response = MutableLiveData<MyResult<*>>()
     val responseLiveData: LiveData<MyResult<*>> = _response
 
-    private fun setResponseFailure(message: String?) {
-        _response.value = MyResult.Loading(false)
-        _response.value = failure(Exception(message))
+    private fun setResponseFailure(message: String?) = with(_response){
+        value = MyResult.Loading(false)
+        value = failure(Exception(message))
     }
 
     private fun doOnSuccess(result: MyResult<Any>, callback: () -> Unit) {
@@ -58,9 +58,7 @@ class RegisterViewModel @AssistedInject constructor(
     }
 
     fun register() {
-        Timber.i("TESTING register ")
-
-        if (email.isEmpty() or password.isEmpty()) return
+         if (email.isEmpty() or password.isEmpty()) return
 
         _response.value = MyResult.Loading(true)
 
@@ -71,7 +69,6 @@ class RegisterViewModel @AssistedInject constructor(
     }
 
     private fun uploadImageToFirebaseStorage() {
-
         uploadImageToFirebaseStorageUseCase.execute(
             params = UploadImageToFirebaseStorageUseCase.Params(photoUri),
             stateReducer = { result ->
@@ -84,7 +81,6 @@ class RegisterViewModel @AssistedInject constructor(
     }
 
     private fun saveUserToFirebaseDatabase() {
-
         saveUserToFirebaseDatabaseUseCase.execute(
             params = SaveUserToFirebaseDatabaseUseCase.Params(username, email, photoUrl),
             stateReducer = { result -> doOnSuccess(result) { _response.value = success(Unit) } }

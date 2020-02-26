@@ -16,6 +16,7 @@ class AuthenticationRepositoryImpl(private val firebaseAuth: FirebaseAuth) {
                     if (it.isSuccessful) coroutine.resume(success(Unit))
                     else coroutine.resume(failure(it.exception!!))
                 }
+                .addOnCanceledListener { coroutine.cancel() }
         }
 
     fun getAuthenticatedUserUid() = firebaseAuth.uid

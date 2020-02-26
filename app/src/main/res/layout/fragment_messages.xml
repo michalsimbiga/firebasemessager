@@ -6,6 +6,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="MESSAGES FRAGMENT"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="@dimen/zero_dp"
             android:layout_height="@dimen/zero_dp"

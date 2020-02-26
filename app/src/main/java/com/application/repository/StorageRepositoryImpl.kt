@@ -33,8 +33,10 @@ class StorageRepositoryImpl(
                                 )
                                 else coroutine.resume(failure(urlRetrieveTask.exception!!))
                             }
+                            .addOnCanceledListener { coroutine.cancel() }
                     } else coroutine.resume(failure(storagePutTask.exception!!))
                 }
+                .addOnCanceledListener { coroutine.cancel() }
         }
 
     suspend fun saveUserToFirebaseDatabase(
@@ -47,8 +49,9 @@ class StorageRepositoryImpl(
                 if (task.isSuccessful) coroutine.resume(success(task.result.toString()))
                 else coroutine.resume(failure(task.exception!!))
             }
+            .addOnCanceledListener { coroutine.cancel() }
     }
 
-    fun prepareUser(username: String, email: String, photoUrl: String) =
+    private fun prepareUser(username: String, email: String, photoUrl: String) =
         User(username, email, photoUrl)
 }

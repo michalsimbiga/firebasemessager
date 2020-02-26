@@ -9,8 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.application.R
 import com.application.databinding.FragmentRegisterBinding
+import com.application.extensions.navigateTo
 import com.application.extensions.popBackstack
+import com.application.extensions.showSnack
 import com.application.net.MyResult
 import com.application.ui.base.BaseFragment
 import com.application.vm.AssistedViewModelFactory
@@ -47,12 +50,9 @@ class RegisterFragment : BaseFragment() {
 
         viewModel.responseLiveData.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
-                is MyResult.Success -> Timber.i("TESTING response success ${result.data}")
-                is MyResult.Failure -> Timber.i("TESTING response failure ${result.exception}")
-                is MyResult.Loading -> {
-                    register_button.isEnabled = result.isLoading.not()
-                    Timber.i("TESTING response loading ${result.isLoading}")
-                }
+                is MyResult.Success -> navigateTo(R.id.messages_fragment)
+                is MyResult.Failure -> showSnack(result.message)
+                is MyResult.Loading -> register_button.isEnabled = result.isLoading.not()
             }
         })
 
