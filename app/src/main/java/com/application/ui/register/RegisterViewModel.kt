@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.application.di.module.ViewModelAssistedFactory
 import com.application.domain.usecase.CreateUserWithEmailAndPasswordUseCase
+import com.application.domain.usecase.SaveUserToFirebaseDatabaseUseCase
 import com.application.domain.usecase.UploadImageToFirebaseStorageUseCase
 import com.application.extensions.delegate
 import com.application.extensions.empty
@@ -28,6 +29,7 @@ class RegisterViewModel @AssistedInject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val createUserWithEmailAndPasswordUseCase: CreateUserWithEmailAndPasswordUseCase,
     private val uploadImageToFirebaseStorageUseCase: UploadImageToFirebaseStorageUseCase,
+    private val saveUserToFirebaseDatabaseUseCase: SaveUserToFirebaseDatabaseUseCase,
     @Assisted private val stateHandle: SavedStateHandle
 ) : BaseViewModel() {
 
@@ -48,6 +50,13 @@ class RegisterViewModel @AssistedInject constructor(
         _response.value = failure(Exception(message))
     }
 
+    private fun doOnSuccess(result: MyResult<Any>, callback: () -> Unit) {
+        when (result) {
+            is MyResult.Success -> callback()
+            is MyResult.Failure -> setResponseFailure(result.message)
+        }
+    }
+
     fun register() {
         Timber.i("TESTING register ")
 
@@ -57,12 +66,7 @@ class RegisterViewModel @AssistedInject constructor(
 
         createUserWithEmailAndPasswordUseCase.execute(
             params = CreateUserWithEmailAndPasswordUseCase.Params(email, password),
-            stateReducer = { result ->
-                when (result) {
-                    is MyResult.Success -> uploadImageToFirebaseStorage()
-                    is MyResult.Failure -> setResponseFailure(result.message)
-                }
-            }
+            stateReducer = { result -> doOnSuccess(result) { uploadImageToFirebaseStorage() } }
         )
     }
 
@@ -71,28 +75,19 @@ class RegisterViewModel @AssistedInject constructor(
         uploadImageToFirebaseStorageUseCase.execute(
             params = UploadImageToFirebaseStorageUseCase.Params(photoUri),
             stateReducer = { result ->
-                when (result) {
-                    is MyResult.Success -> {
-                        photoUrl = result.data
-                        saveUserToFirebaseDatabase()
-                    }
-                    is MyResult.Failure -> setResponseFailure(result.message)
+                doOnSuccess(result) {
+                    photoUrl = result.toString()
+                    saveUserToFirebaseDatabase()
                 }
             }
         )
     }
 
     private fun saveUserToFirebaseDatabase() {
-        Timber.i("TESTING saveUserToFirebaseDatabase")
-        val dbReference = FirebaseDatabase.getInstance().getReference("/users/${firebaseAuth.uid}")
 
-        executeFirebase(
-            onSuccessReceiver = {
-                _response.value = MyResult.Loading(false)
-                _response.value = success(Unit)
-            },
-            onFailureReceiver = { exception -> setResponseFailure(exception.localizedMessage) },
-            request = { dbReference.setValue(User(username, email, photoUrl!!)) }
+        saveUserToFirebaseDatabaseUseCase.execute(
+            params = SaveUserToFirebaseDatabaseUseCase.Params(username, email, photoUrl),
+            stateReducer = { result -> doOnSuccess(result) { _response.value = success(Unit) } }
         )
     }
 }

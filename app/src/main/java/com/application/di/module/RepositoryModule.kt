@@ -5,6 +5,7 @@ import com.application.repository.AuthenticationRepositoryImpl
 import com.application.repository.MyRepository
 import com.application.repository.StorageRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Binds
 import dagger.Module
@@ -25,6 +26,9 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideStorageRepository(firebaseStorage: FirebaseStorage): StorageRepositoryImpl =
-        StorageRepositoryImpl(firebaseStorage)
+    fun provideStorageRepository(
+        firebaseStorage: FirebaseStorage,
+        firebaseDatabase: FirebaseDatabase
+    ): StorageRepositoryImpl =
+        StorageRepositoryImpl(firebaseStorage, firebaseDatabase)
 }
