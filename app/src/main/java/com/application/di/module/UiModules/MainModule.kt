@@ -1,4 +1,4 @@
-package com.application.di.module.mainActivity
+package com.application.di.module.UiModules
 
 import dagger.Module
 

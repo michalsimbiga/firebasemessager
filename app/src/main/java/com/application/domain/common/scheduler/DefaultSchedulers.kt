@@ -1,4 +1,4 @@
-package com.application.domain.scheduler
+package com.application.domain.common.scheduler
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

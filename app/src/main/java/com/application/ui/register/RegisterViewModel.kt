@@ -4,7 +4,9 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.application.di.module.ViewModelAssistedFactory
+import com.application.domain.usecase.CreateUserWithEmailAndPasswordUseCase
 import com.application.extensions.delegate
 import com.application.extensions.empty
 import com.application.model.User
@@ -15,6 +17,7 @@ import com.application.ui.base.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import timber.log.Timber
@@ -22,6 +25,7 @@ import java.util.*
 
 class RegisterViewModel @AssistedInject constructor(
     private val firebaseAuth: FirebaseAuth,
+    private val createUserWithEmailAndPasswordUseCase: CreateUserWithEmailAndPasswordUseCase,
     @Assisted private val stateHandle: SavedStateHandle
 ) : BaseViewModel() {
 
@@ -43,56 +47,68 @@ class RegisterViewModel @AssistedInject constructor(
     }
 
     fun register() {
+        Timber.i("TESTING register ")
+
         if (email.isEmpty() or password.isEmpty()) return
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                if (it.isSuccessful) uploadImageToFirebaseStorage()
-                else setResponseFailure(it.exception?.localizedMessage)
-            }
+        _response.value = MyResult.Loading(true)
+
+        val result = createUserWithEmailAndPasswordUseCase.invoke(
+            viewModelJob,
+            CreateUserWithEmailAndPasswordUseCase.Params(email, password)
+        )
+
+        Timber.i("TESTING register job $result")
+
 
 //        executeFirebase(
-//            receiver = { response: MyResult<*> -> _response.value = response },
+//            onSuccessReceiver = { uploadImageToFirebaseStorage() },
+//            onFailureReceiver = { exception -> setResponseFailure(exception.localizedMessage) },
 //            request = { firebaseAuth.createUserWithEmailAndPassword(email, password) }
 //        )
     }
 
-//    fun <T : Any> MyResult<T>.doOn(
-//        successCallback: () -> Unit,
-//        failureCallback: () -> Unit
-//    ) {
-//        when(this) {
-//            is MyResult.Success -> successCallback()
-//            is MyResult.Failure -> failureCallback()
-//        }
-//    }
-
-    fun uploadImageToFirebaseStorage() {
+    private fun uploadImageToFirebaseStorage() {
+        Timber.i("TESTING uploadImageToFirebaseStorage")
         if (photoUri != null) {
+
+            Timber.i("TESTING uploadImageToFirebaseStorage ok")
 
             val filename = UUID.randomUUID().toString()
             val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
 
-            ref.putFile(photoUri!!)
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        ref.downloadUrl.addOnSuccessListener { uri ->
-                            photoUrl = uri.toString()
-                            Timber.i("TESTING photoUrl $photoUrl")
-                            saveUserToFirebaseDatabase()
-                        }
-                    }
-                    else setResponseFailure(it.exception?.localizedMessage)
-                }
+            executeFirebase(
+                onSuccessReceiver = { retrieveImageUrl(ref) },
+                onFailureReceiver = { exception -> setResponseFailure(exception.localizedMessage) },
+                request = { ref.putFile(photoUri!!) }
+            )
         }
     }
 
-    fun saveUserToFirebaseDatabase() {
+    private fun retrieveImageUrl(storageReference: StorageReference) {
+        Timber.i("TESTING retrieveImageUrl ")
+        executeFirebase(
+            onSuccessReceiver = { uri ->
+                Timber.i("TESTING retrieveImageUlr success ${uri}")
+                photoUrl = uri.toString()
+                saveUserToFirebaseDatabase()
+            },
+            onFailureReceiver = { exception -> setResponseFailure(exception.localizedMessage) },
+            request = { storageReference.downloadUrl }
+        )
+    }
+
+    private fun saveUserToFirebaseDatabase() {
+        Timber.i("TESTING saveUserToFirebaseDatabase")
         val dbReference = FirebaseDatabase.getInstance().getReference("/users/${firebaseAuth.uid}")
-        dbReference.setValue(User(username, email, photoUrl!!))
-            .addOnCompleteListener {
-                if (it.isSuccessful) _response.postValue(success(Unit))
-                else setResponseFailure(it.exception?.localizedMessage)
-            }
+
+        executeFirebase(
+            onSuccessReceiver = {
+                _response.value = MyResult.Loading(false)
+                _response.value = success(Unit)
+            },
+            onFailureReceiver = { exception -> setResponseFailure(exception.localizedMessage) },
+            request = { dbReference.setValue(User(username, email, photoUrl!!)) }
+        )
     }
 }

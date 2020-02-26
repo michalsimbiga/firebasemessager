@@ -1,8 +1,8 @@
 package com.application.di
 
-import com.application.di.module.mainActivity.LoginModule
-import com.application.di.module.mainActivity.MainModule
-import com.application.di.module.mainActivity.RegisterModule
+import com.application.di.module.UiModules.LoginModule
+import com.application.di.module.UiModules.MainModule
+import com.application.di.module.UiModules.RegisterModule
 import com.application.ui.login.LoginFragment
 import com.application.ui.MainActivity
 import com.application.ui.register.RegisterFragment

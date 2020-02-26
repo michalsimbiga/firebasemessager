@@ -1,4 +1,4 @@
-package com.application.di.module.mainActivity
+package com.application.di.module.UiModules
 
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner

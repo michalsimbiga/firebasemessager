@@ -2,17 +2,19 @@ package com.application.ui.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.application.domain.common.useCase.UseCase
 import com.application.net.MyResult
 import com.application.net.failure
 import com.application.net.success
 import com.google.android.gms.tasks.Task
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 typealias responseReceiver<T> = (MyResult<T>) -> Unit
 
 abstract class BaseViewModel : ViewModel() {
+
+    protected val viewModelJob = SupervisorJob()
+    protected val backgroundScope = CoroutineScope(viewModelJob + Dispatchers.Default)
 
     private val loadingTrue = MyResult.Loading(isLoading = true)
     private val loadingFalse = MyResult.Loading(isLoading = false)
@@ -25,6 +27,14 @@ abstract class BaseViewModel : ViewModel() {
         val result = withContext(Dispatchers.IO) { request() }
         handleResult(result, receiver)
     }
+//
+//    fun <T : Any, V, I> UseCase<T, I>.execute(
+//        params: I,
+//        mapper: ((T) -> V),
+//        stateReducer: () -> Unit
+//    ) {
+//        this.invoke(viewModelJob, params) { result -> handleResult(result, mapper, stateReducer) }
+//    }
 
     fun <T : Any> executeFirebase(
         receiver: responseReceiver<T>,
@@ -37,6 +47,20 @@ abstract class BaseViewModel : ViewModel() {
                     receiver(loadingFalse)
                     if (it.isSuccessful) receiver(success(it.result as T))
                     else receiver(failure(it.exception!!))
+                }
+        }
+    }
+
+    fun <T : Any?> executeFirebase(
+        onSuccessReceiver: (T) -> Unit,
+        onFailureReceiver: (Exception) -> Unit,
+        request: suspend (() -> (Task<T>))
+    ) = viewModelScope.launch(Dispatchers.Main) {
+        withContext(Dispatchers.IO) {
+            request()
+                .addOnCompleteListener {
+                    if (it.isSuccessful) onSuccessReceiver(it.result as T)
+                    else onFailureReceiver(it.exception!!)
                 }
         }
     }
