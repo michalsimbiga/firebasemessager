@@ -1,10 +1,10 @@
 package com.application.ui.messages
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.application.R
 import com.application.databinding.FragmentMessagesBinding
 import com.application.ui.base.BaseFragment
 import com.application.vm.AssistedViewModelFactory
@@ -31,5 +31,20 @@ class MessagesFragment : BaseFragment() {
             lifecycleOwner = viewLifecycleOwner
             return root
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.nav_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_sign_out -> {
+                viewModel.signOut()
+                findNavController().navigate(R.id.login_fragment)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

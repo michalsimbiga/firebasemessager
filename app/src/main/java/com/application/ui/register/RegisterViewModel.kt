@@ -4,26 +4,19 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.application.di.module.ViewModelAssistedFactory
-import com.application.domain.usecase.CreateUserWithEmailAndPasswordUseCase
+import com.application.domain.usecase.authusecases.CreateUserWithEmailAndPasswordUseCase
 import com.application.domain.usecase.SaveUserToFirebaseDatabaseUseCase
 import com.application.domain.usecase.UploadImageToFirebaseStorageUseCase
 import com.application.extensions.delegate
 import com.application.extensions.empty
-import com.application.model.User
 import com.application.net.MyResult
 import com.application.net.failure
 import com.application.net.success
 import com.application.ui.base.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import timber.log.Timber
-import java.util.*
 
 class RegisterViewModel @AssistedInject constructor(
     private val firebaseAuth: FirebaseAuth,

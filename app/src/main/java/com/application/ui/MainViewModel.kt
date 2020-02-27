@@ -2,16 +2,30 @@ package com.application.ui
 
 import androidx.lifecycle.*
 import com.application.di.module.ViewModelAssistedFactory
+import com.application.domain.usecase.authusecases.CheckUserSignedInUseCase
+import com.application.net.MyResult
 import com.application.repository.MyRepository
+import com.application.ui.base.BaseViewModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
 class MainViewModel @AssistedInject constructor(
-    private val repository: MyRepository,
-    @Assisted private val stateHandle: SavedStateHandle): ViewModel() {
+    private val checkUserSignedInUseCase: CheckUserSignedInUseCase,
+    @Assisted private val stateHandle: SavedStateHandle
+) : BaseViewModel() {
 
     @AssistedInject.Factory
     interface Factory : ViewModelAssistedFactory<MainViewModel>
+
+    private val _response = MutableLiveData<MyResult<Boolean>>()
+    val loggedInResponse: LiveData<MyResult<Boolean>> = _response
+
+    fun checkIfSignedIn() {
+        checkUserSignedInUseCase.execute(
+            stateReducer = { response -> _response.value = response }
+        )
+    }
+
 
 //    private val jokes: MutableLiveData<MyResult<List<Joke>>> by lazy {
 //        MutableLiveData<MyResult<List<Joke>>>().also {

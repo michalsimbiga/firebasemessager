@@ -1,4 +1,4 @@
-package com.application.domain.usecase
+package com.application.domain.usecase.authusecases
 
 import com.application.domain.common.useCase.UseCase
 import com.application.net.MyResult

@@ -2,6 +2,7 @@ package com.application.ui.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.application.domain.common.useCase.NoParametersUseCase
 import com.application.domain.common.useCase.UseCase
 import com.application.net.MyResult
 import com.application.net.failure
@@ -33,6 +34,12 @@ abstract class BaseViewModel : ViewModel() {
         stateReducer: (MyResult<T>) -> Unit
     ) {
         this.invoke(viewModelJob, params) { result -> stateReducer(result) }
+    }
+
+    fun <T : Any> NoParametersUseCase<T>.execute(
+        stateReducer: (MyResult<T>) -> Unit
+    ) {
+        this.invoke(viewModelJob) { result -> stateReducer(result) }
     }
 
     fun <T : Any> executeFirebase(
