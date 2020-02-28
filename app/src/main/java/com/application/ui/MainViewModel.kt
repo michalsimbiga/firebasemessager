@@ -10,21 +10,14 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
 class MainViewModel @AssistedInject constructor(
-    private val checkUserSignedInUseCase: CheckUserSignedInUseCase,
     @Assisted private val stateHandle: SavedStateHandle
 ) : BaseViewModel() {
 
     @AssistedInject.Factory
     interface Factory : ViewModelAssistedFactory<MainViewModel>
 
-    private val _response = MutableLiveData<MyResult<Boolean>>()
-    val loggedInResponse: LiveData<MyResult<Boolean>> = _response
-
-    fun checkIfSignedIn() {
-        checkUserSignedInUseCase.execute(
-            stateReducer = { response -> _response.value = response }
-        )
-    }
+//    private val _response = MutableLiveData<MyResult<Boolean>>()
+//    val loggedInResponse: LiveData<MyResult<Boolean>> = _response
 
 
 //    private val jokes: MutableLiveData<MyResult<List<Joke>>> by lazy {

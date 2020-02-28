@@ -5,6 +5,7 @@ import com.application.net.failure
 import com.application.net.success
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.suspendCancellableCoroutine
+import timber.log.Timber
 import kotlin.coroutines.resume
 
 class AuthenticationRepositoryImpl(private val firebaseAuth: FirebaseAuth) {
@@ -21,7 +22,8 @@ class AuthenticationRepositoryImpl(private val firebaseAuth: FirebaseAuth) {
 
     fun getAuthenticatedUserUid() = firebaseAuth.uid
 
-    fun checkCurrentUser() = firebaseAuth.currentUser
+    fun checkCurrentUser() =
+        firebaseAuth.currentUser.also { Timber.i("TESTING checkCurrentUser $it") }
 
     fun signOut() = firebaseAuth.signOut()
 }

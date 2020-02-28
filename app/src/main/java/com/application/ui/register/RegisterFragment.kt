@@ -19,7 +19,6 @@ import com.application.ui.base.BaseFragment
 import com.application.vm.AssistedViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_register.*
-import timber.log.Timber
 import javax.inject.Inject
 
 class RegisterFragment : BaseFragment() {
@@ -36,6 +35,7 @@ class RegisterFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
         with(binding) {
@@ -50,7 +50,7 @@ class RegisterFragment : BaseFragment() {
 
         viewModel.responseLiveData.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
-                is MyResult.Success -> navigateTo(R.id.messages_fragment)
+                is MyResult.Success -> navigateTo(R.id.nav_messages_fragment)
                 is MyResult.Failure -> showSnack(result.message)
                 is MyResult.Loading -> register_button.isEnabled = result.isLoading.not()
             }

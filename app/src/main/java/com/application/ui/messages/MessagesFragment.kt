@@ -24,9 +24,11 @@ class MessagesFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
 
         binding = FragmentMessagesBinding.inflate(inflater, container, false)
 
+        setHasOptionsMenu(true)
         with(binding) {
             lifecycleOwner = viewLifecycleOwner
             return root
@@ -42,7 +44,7 @@ class MessagesFragment : BaseFragment() {
         when (item.itemId) {
             R.id.menu_sign_out -> {
                 viewModel.signOut()
-                findNavController().navigate(R.id.login_fragment)
+                findNavController().navigate(R.id.nav_login_fragment)
             }
         }
         return super.onOptionsItemSelected(item)
