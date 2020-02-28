@@ -1,4 +1,4 @@
-package com.application.ui.register
+package com.application.ui.auth.register
 
 import android.net.Uri
 import androidx.lifecycle.LiveData

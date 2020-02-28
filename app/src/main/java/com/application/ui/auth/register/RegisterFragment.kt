@@ -1,4 +1,4 @@
-package com.application.ui.register
+package com.application.ui.auth.register
 
 import android.app.Activity
 import android.content.Intent

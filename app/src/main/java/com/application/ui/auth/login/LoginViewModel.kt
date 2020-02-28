@@ -1,4 +1,4 @@
-package com.application.ui.login
+package com.application.ui.auth.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +12,6 @@ import com.application.ui.base.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import timber.log.Timber
 
 class LoginViewModel @AssistedInject constructor(
     private val firebaseAuth: FirebaseAuth,

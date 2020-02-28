@@ -6,17 +6,23 @@
 
     <fragment
         android:id="@+id/nav_login_fragment"
-        android:name="com.application.ui.login.LoginFragment"
+        android:name="com.application.ui.auth.login.LoginFragment"
         android:label="Main Fragment" />
 
     <fragment
         android:id="@+id/nav_register_fragment"
-        android:name="com.application.ui.register.RegisterFragment"
+        android:name="com.application.ui.auth.register.RegisterFragment"
         android:label="Register Fragment" />
 
     <fragment
         android:id="@+id/nav_messages_fragment"
         android:name="com.application.ui.messages.MessagesFragment"
         android:label="Messages Fragment" />
+
+    <fragment
+        android:id="@+id/nav_new_message_fragment"
+        android:name="com.application.ui.messages.newMessage.NewMessageFragment"
+        android:label="New Message Fragment" />
+
 
 </navigation>

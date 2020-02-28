@@ -1,13 +1,11 @@
 package com.application.di
 
-import com.application.di.module.uimodules.LoginModule
-import com.application.di.module.uimodules.MainModule
-import com.application.di.module.uimodules.MessagesModule
-import com.application.di.module.uimodules.RegisterModule
-import com.application.ui.login.LoginFragment
+import com.application.di.module.uimodules.*
+import com.application.ui.auth.login.LoginFragment
 import com.application.ui.MainActivity
 import com.application.ui.messages.MessagesFragment
-import com.application.ui.register.RegisterFragment
+import com.application.ui.auth.register.RegisterFragment
+import com.application.ui.messages.newMessage.NewMessageFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -25,4 +23,7 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = [MessagesModule::class])
     abstract fun bindMessagesFragment(): MessagesFragment
+
+    @ContributesAndroidInjector(modules = [NewMessageModule::class])
+    abstract fun bindNewMessageFragment(): NewMessageFragment
 }

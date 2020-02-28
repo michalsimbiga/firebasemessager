@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.application.R
 import com.application.databinding.FragmentMessagesBinding
+import com.application.extensions.navigateTo
 import com.application.ui.base.BaseFragment
 import com.application.vm.AssistedViewModelFactory
 import javax.inject.Inject
@@ -33,6 +34,14 @@ class MessagesFragment : BaseFragment() {
             lifecycleOwner = viewLifecycleOwner
             return root
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.messagesFragmentFab.setOnClickListener {
+            navigateTo(R.id.nav_new_message_fragment)
+        }
+
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -1,4 +1,4 @@
-package com.application.ui.login
+package com.application.ui.auth.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
