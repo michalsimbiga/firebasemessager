@@ -15,11 +15,11 @@ class NewMessageRecyclerAdapter : RecyclerView.Adapter<NewMessageViewHolder>() {
 
     private var onUserItemClickListener: onUserItemClickListener? = null
 
-    fun setOnUserItemClickListener(callback: onUserItemClickListener?){
+    fun setOnUserItemClickListener(callback: onUserItemClickListener?) {
         onUserItemClickListener = callback
     }
 
-    fun setNewData(list: List<User>){
+    fun setNewData(list: List<User>) {
         people.clear()
         people.addAll(list)
         notifyDataSetChanged()
@@ -28,10 +28,9 @@ class NewMessageRecyclerAdapter : RecyclerView.Adapter<NewMessageViewHolder>() {
     override fun getItemCount() = people.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewMessageViewHolder {
-        val binding: FragmentNewMessageRecyclerItemBinding =
-            FragmentNewMessageRecyclerItemBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
+        val binding = FragmentNewMessageRecyclerItemBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
 
         return NewMessageViewHolder(binding)
     }
@@ -44,11 +43,18 @@ class NewMessageRecyclerAdapter : RecyclerView.Adapter<NewMessageViewHolder>() {
 class NewMessageViewHolder(private val binding: FragmentNewMessageRecyclerItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(user: User, onClickCallback: onUserItemClickListener?){
-        Glide
-            .with(binding.root.context)
-            .load(user.profileImage)
-            .centerCrop()
-            .into(binding.userItemImage)
-    }
+    fun bind(user: User, onClickCallback: onUserItemClickListener?) =
+        with(binding) {
+
+            Glide
+                .with(root.context)
+                .load(user.profileImage)
+                .centerCrop()
+                .into(userItemImage)
+
+            userItemName.text = user.username
+            userItemMainLayout.setOnClickListener { onClickCallback?.invoke(user) }
+        }
+
+
 }

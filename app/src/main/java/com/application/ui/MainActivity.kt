@@ -31,6 +31,7 @@ class MainActivity : BaseActivity() {
             R.id.nav_login_fragment -> finish()
             R.id.nav_register_fragment -> popBackStack(R.id.nav_login_fragment, false)
             R.id.nav_messages_fragment -> finish()
+            R.id.nav_new_message_fragment -> navigate(R.id.nav_messages_fragment)
 
             else -> if (popBackStack().not()) finish()
         }

@@ -11,6 +11,7 @@ import com.application.model.User
 import com.application.net.MyResult
 import com.application.ui.base.BaseFragment
 import com.application.vm.AssistedViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 class NewMessageFragment : BaseFragment() {
@@ -49,6 +50,8 @@ class NewMessageFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.userDataResponse.observe(viewLifecycleOwner, usersResponseObserver)
+        
+        recyclerAdapter.setOnUserItemClickListener { user -> }
 
         binding.newMessageFragmentRecyclerView.adapter = recyclerAdapter
     }

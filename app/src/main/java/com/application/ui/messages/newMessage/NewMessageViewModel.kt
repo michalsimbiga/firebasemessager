@@ -13,7 +13,6 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
 class NewMessageViewModel @AssistedInject constructor(
-    private val authRepo: AuthenticationRepositoryImpl,
     private val fetchAllUsersUseCase: FetchAllUsersUseCase,
     @Assisted private val stateHandle: SavedStateHandle
 ) : BaseViewModel() {

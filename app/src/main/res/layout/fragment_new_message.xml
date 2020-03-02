@@ -6,12 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="New Message" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/new_message_fragment_recycler_view"
             android:layout_width="@dimen/zero_dp"

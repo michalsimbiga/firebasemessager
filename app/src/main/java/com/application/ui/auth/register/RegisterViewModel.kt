@@ -43,7 +43,7 @@ class RegisterViewModel @AssistedInject constructor(
         value = failure(Exception(message))
     }
 
-    private fun <T : Any> MyResult<T>.doOnSuccess(callback: () -> Unit) {
+    private fun <T : Any> MyResult<T>.doOnSuccess(callback: MyResult.Success<Any>.() -> Unit) {
         when (this) {
             is MyResult.Success -> callback()
             is MyResult.Failure -> setResponseFailure(this.message)
@@ -66,7 +66,7 @@ class RegisterViewModel @AssistedInject constructor(
             params = UploadImageToFirebaseStorageUseCase.Params(photoUri),
             stateReducer = { result ->
                 result.doOnSuccess {
-                    photoUrl = result.toString()
+                    photoUrl = this.data as String
                     saveUserToFirebaseDatabase()
                 }
             }
