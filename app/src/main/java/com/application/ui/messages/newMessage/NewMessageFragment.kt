@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.application.databinding.FragmentNewMessageBinding
+import com.application.model.User
+import com.application.net.MyResult
 import com.application.ui.base.BaseFragment
 import com.application.vm.AssistedViewModelFactory
 import javax.inject.Inject
@@ -16,8 +19,15 @@ class NewMessageFragment : BaseFragment() {
     lateinit var savedStateVmFactory: AssistedViewModelFactory
 
     private val viewModel: NewMessageViewModel by viewModels { savedStateVmFactory }
+    private val recyclerAdapter by lazy { NewMessageRecyclerAdapter() }
 
     private lateinit var binding: FragmentNewMessageBinding
+
+    private val usersResponseObserver = Observer<MyResult<List<User>>> { result ->
+        when (result) {
+            is MyResult.Success -> recyclerAdapter.setNewData(result.data)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,6 +48,8 @@ class NewMessageFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.newMessageFragmentRecyclerView.adapter =
+        viewModel.userDataResponse.observe(viewLifecycleOwner, usersResponseObserver)
+
+        binding.newMessageFragmentRecyclerView.adapter = recyclerAdapter
     }
 }

@@ -28,7 +28,7 @@ class LoginFragment : BaseFragment() {
     private val loggedInResponseObserver = Observer<MyResult<Boolean>> { response ->
         when (response) {
             is MyResult.Success -> {
-                if (response.data) navigateTo(R.id.nav_messages_fragment).also { findNavController().popBackStack() }
+                if (response.data) navigateTo(R.id.nav_messages_fragment)
             }
         }
     }

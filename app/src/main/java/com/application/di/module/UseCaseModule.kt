@@ -1,5 +1,6 @@
 package com.application.di.module
 
+import com.application.domain.usecase.FetchAllUsersUseCase
 import com.application.domain.usecase.authusecases.CreateUserWithEmailAndPasswordUseCase
 import com.application.domain.usecase.SaveUserToFirebaseDatabaseUseCase
 import com.application.domain.usecase.UploadImageToFirebaseStorageUseCase
@@ -7,6 +8,7 @@ import com.application.domain.usecase.authusecases.CheckUserSignedInUseCase
 import com.application.domain.usecase.authusecases.SignOutUseCase
 import com.application.repository.AuthenticationRepositoryImpl
 import com.application.repository.StorageRepositoryImpl
+import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
 
@@ -38,4 +40,8 @@ class UseCaseModule {
     @Provides
     fun bindCheckUserSignedInUseCase(authRepo: AuthenticationRepositoryImpl):
             CheckUserSignedInUseCase = CheckUserSignedInUseCase(authRepo)
+
+    @Provides
+    fun bindFetchAllUsersUseCase(storageRepo: StorageRepositoryImpl):
+            FetchAllUsersUseCase = FetchAllUsersUseCase(storageRepo)
 }

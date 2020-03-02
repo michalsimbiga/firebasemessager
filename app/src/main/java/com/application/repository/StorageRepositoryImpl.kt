@@ -5,7 +5,10 @@ import com.application.model.User
 import com.application.net.MyResult
 import com.application.net.failure
 import com.application.net.success
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.*
@@ -50,6 +53,24 @@ class StorageRepositoryImpl(
                 else coroutine.resume(failure(task.exception!!))
             }
             .addOnCanceledListener { coroutine.cancel() }
+    }
+
+    suspend fun fetchAllUsers() = suspendCancellableCoroutine<List<User>> { coroutine ->
+        val ref = firebaseDatabase.getReference("/users")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                coroutine.cancel()
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val retList = mutableListOf<User>()
+                p0.children.forEach {
+                    it.getValue(User::class.java).apply { if (this != null) retList.add(this) }
+                }
+                coroutine.resume(retList.toList())
+            }
+
+        })
     }
 
     private fun prepareUser(username: String, email: String, photoUrl: String) =
