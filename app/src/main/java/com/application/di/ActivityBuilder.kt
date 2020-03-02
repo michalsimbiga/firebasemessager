@@ -5,6 +5,7 @@ import com.application.ui.auth.login.LoginFragment
 import com.application.ui.MainActivity
 import com.application.ui.messages.MessagesFragment
 import com.application.ui.auth.register.RegisterFragment
+import com.application.ui.messages.chat.ChatFragment
 import com.application.ui.messages.newMessage.NewMessageFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -26,4 +27,7 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = [NewMessageModule::class])
     abstract fun bindNewMessageFragment(): NewMessageFragment
+
+    @ContributesAndroidInjector(modules = [ChatModule::class])
+    abstract fun bindChatFragment(): ChatFragment
 }

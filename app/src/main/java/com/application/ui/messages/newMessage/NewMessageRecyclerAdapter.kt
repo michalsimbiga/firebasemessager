@@ -35,9 +35,8 @@ class NewMessageRecyclerAdapter : RecyclerView.Adapter<NewMessageViewHolder>() {
         return NewMessageViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: NewMessageViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: NewMessageViewHolder, position: Int) =
         holder.bind(people[position], onUserItemClickListener)
-    }
 }
 
 class NewMessageViewHolder(private val binding: FragmentNewMessageRecyclerItemBinding) :
@@ -55,6 +54,4 @@ class NewMessageViewHolder(private val binding: FragmentNewMessageRecyclerItemBi
             userItemName.text = user.username
             userItemMainLayout.setOnClickListener { onClickCallback?.invoke(user) }
         }
-
-
 }

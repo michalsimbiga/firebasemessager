@@ -121,6 +121,7 @@ object Libraries {
 
     val navigationFragmentKtx = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     val navigationKtx = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+    val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
 
     val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
 
