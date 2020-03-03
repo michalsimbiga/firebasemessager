@@ -18,8 +18,7 @@ import javax.inject.Singleton
         NetworkModule::class,
         RepositoryModule::class,
         UseCaseModule::class,
-        ViewModelAssistedFactoriesModule::class,
-        ViewModelModule::class
+        ViewModelAssistedFactoriesModule::class
     ]
 )
 interface AppComponent : AndroidInjector<MyApplication> {
@@ -31,6 +30,4 @@ interface AppComponent : AndroidInjector<MyApplication> {
 
         fun build(): AppComponent
     }
-
-    fun bindingComponentBuilder(): BindingComponent.Builder
 }

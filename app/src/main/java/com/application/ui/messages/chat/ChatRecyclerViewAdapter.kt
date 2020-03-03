@@ -4,14 +4,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.application.databinding.FragmentChatRecyclerFromItemBinding
 import com.application.databinding.FragmentChatRecyclerMyItemBinding
-import com.application.model.User
+import com.application.data.model.User
 import com.bumptech.glide.Glide
 
 class ChatRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val chatMessages = linkedMapOf<String, User>()
 
-    fun addMessages(list:)
+//    fun addMessages(list:)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

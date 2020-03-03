@@ -22,16 +22,7 @@ class MyApplication : DaggerApplication() {
         super.onCreate()
 
         setupStrictMode()
-        setupDagger()
         setupTimber()
-    }
-
-    private fun setupDagger() {
-        DataBindingUtil.setDefaultComponent(
-            applicationInjector
-                .bindingComponentBuilder()
-                .build()
-        )
     }
 
     private fun setupTimber() {

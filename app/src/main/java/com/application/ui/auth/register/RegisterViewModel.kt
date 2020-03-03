@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.application.di.module.ViewModelAssistedFactory
 import com.application.domain.usecase.authusecases.CreateUserWithEmailAndPasswordUseCase
-import com.application.domain.usecase.SaveUserToFirebaseDatabaseUseCase
-import com.application.domain.usecase.UploadImageToFirebaseStorageUseCase
+import com.application.domain.usecase.databaseusecases.SaveUserToFirebaseDatabaseUseCase
+import com.application.domain.usecase.databaseusecases.UploadImageToFirebaseStorageUseCase
 import com.application.extensions.delegate
 import com.application.extensions.empty
 import com.application.net.MyResult

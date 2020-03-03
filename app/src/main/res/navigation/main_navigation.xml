@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/nav_messages_fragment"
-        android:name="com.application.ui.messages.MessagesFragment"
+        android:name="com.application.ui.messages.messages.MessagesFragment"
         android:label="Messages Fragment">
     </fragment>
 
@@ -35,7 +35,7 @@
         android:label="Chat Fragment">
         <argument
             android:name="chatRecipient"
-            app:argType="com.application.model.User" />
+            app:argType="com.application.data.model.User" />
 
     </fragment>
 

@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.application.R
 import com.application.databinding.FragmentLoginBinding
 import com.application.extensions.navigateTo
 import com.application.net.MyResult
 import com.application.ui.base.BaseFragment
-import com.application.vm.AssistedViewModelFactory
+import com.application.domain.common.AssistedViewModelFactory
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
 

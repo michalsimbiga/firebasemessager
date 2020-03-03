@@ -1,10 +1,13 @@
 package com.application.repository
 
 import android.net.Uri
-import com.application.model.User
+import com.application.data.model.Message
+import com.application.data.model.User
+import com.application.extensions.empty
 import com.application.net.MyResult
 import com.application.net.failure
 import com.application.net.success
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -16,7 +19,8 @@ import kotlin.coroutines.resume
 
 class StorageRepositoryImpl(
     private val firebaseStorage: FirebaseStorage,
-    private val firebaseDatabase: FirebaseDatabase
+    private val firebaseDatabase: FirebaseDatabase,
+    private val authRepositoryImpl: AuthenticationRepositoryImpl
 ) {
 
     suspend fun uploadImageToFirebaseStorage(imageUri: Uri) =
@@ -30,9 +34,7 @@ class StorageRepositoryImpl(
                         storageRef.downloadUrl
                             .addOnCompleteListener { urlRetrieveTask ->
                                 if (urlRetrieveTask.isSuccessful) coroutine.resume(
-                                    success(
-                                        urlRetrieveTask.result.toString()
-                                    )
+                                    success(urlRetrieveTask.result.toString())
                                 )
                                 else coroutine.resume(failure(urlRetrieveTask.exception!!))
                             }
@@ -73,6 +75,35 @@ class StorageRepositoryImpl(
         })
     }
 
+    suspend fun sendMessageToUser(receipientUid: String, message: String) =
+        suspendCancellableCoroutine<MyResult<Boolean>> { coroutine ->
+            val reference = firebaseDatabase.getReference("/messages").push()
+
+            val fromId = authRepositoryImpl.getAuthenticatedUserUid() ?: String.empty
+
+            val prepedMessage = prepareMessage(
+                reference.key ?: String.empty,
+                message, fromId, receipientUid, System.currentTimeMillis() / 1000
+            )
+
+            reference.setValue(prepedMessage)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) coroutine.resume(success(true))
+                    else coroutine.resume(failure(task.exception!!))
+                }
+                .addOnCanceledListener { coroutine.cancel() }
+
+        }
+
+    private fun prepareMessage(
+        id: String, message: String, fromId: String, toId: String, timestamp: Long
+    ) = Message(id, message, fromId, toId, timestamp)
+
     private fun prepareUser(username: String, email: String, photoUrl: String) =
-        User(username, email, photoUrl)
+        User(
+            authRepositoryImpl.getAuthenticatedUserUid() ?: String.empty,
+            username,
+            email,
+            photoUrl
+        )
 }

@@ -1,4 +1,4 @@
-package com.application.vm
+package com.application.domain.common
 
 import android.util.Log
 import androidx.annotation.MainThread

@@ -22,8 +22,7 @@ class AuthenticationRepositoryImpl(private val firebaseAuth: FirebaseAuth) {
 
     fun getAuthenticatedUserUid() = firebaseAuth.uid
 
-    fun checkCurrentUser() =
-        firebaseAuth.currentUser.also { Timber.i("TESTING checkCurrentUser $it") }
+    fun checkCurrentUser() = firebaseAuth.currentUser
 
     fun signOut() = firebaseAuth.signOut()
 }

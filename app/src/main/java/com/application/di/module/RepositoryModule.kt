@@ -28,7 +28,8 @@ class RepositoryModule {
     @Singleton
     fun provideStorageRepository(
         firebaseStorage: FirebaseStorage,
-        firebaseDatabase: FirebaseDatabase
+        firebaseDatabase: FirebaseDatabase,
+        authRepo: AuthenticationRepositoryImpl
     ): StorageRepositoryImpl =
-        StorageRepositoryImpl(firebaseStorage, firebaseDatabase)
+        StorageRepositoryImpl(firebaseStorage, firebaseDatabase, authRepo)
 }

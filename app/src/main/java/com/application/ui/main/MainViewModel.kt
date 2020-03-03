@@ -1,10 +1,7 @@
-package com.application.ui
+package com.application.ui.main
 
 import androidx.lifecycle.*
 import com.application.di.module.ViewModelAssistedFactory
-import com.application.domain.usecase.authusecases.CheckUserSignedInUseCase
-import com.application.net.MyResult
-import com.application.repository.MyRepository
 import com.application.ui.base.BaseViewModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject

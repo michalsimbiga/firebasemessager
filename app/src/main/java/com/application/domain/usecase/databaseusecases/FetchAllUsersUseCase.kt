@@ -1,7 +1,7 @@
-package com.application.domain.usecase
+package com.application.domain.usecase.databaseusecases
 
 import com.application.domain.common.useCase.NoParametersUseCase
-import com.application.model.User
+import com.application.data.model.User
 import com.application.net.MyResult
 import com.application.net.success
 import com.application.repository.StorageRepositoryImpl

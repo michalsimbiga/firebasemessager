@@ -1,4 +1,4 @@
-package com.application.vm
+package com.application.domain.common
 
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle

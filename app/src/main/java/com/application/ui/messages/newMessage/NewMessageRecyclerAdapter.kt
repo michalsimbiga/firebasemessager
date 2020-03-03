@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.application.databinding.FragmentNewMessageRecyclerItemBinding
-import com.application.model.User
+import com.application.data.model.User
 import com.bumptech.glide.Glide
 
 typealias onUserItemClickListener = (User) -> Unit

@@ -2,8 +2,8 @@ package com.application.di
 
 import com.application.di.module.uimodules.*
 import com.application.ui.auth.login.LoginFragment
-import com.application.ui.MainActivity
-import com.application.ui.messages.MessagesFragment
+import com.application.ui.main.MainActivity
+import com.application.ui.messages.messages.MessagesFragment
 import com.application.ui.auth.register.RegisterFragment
 import com.application.ui.messages.chat.ChatFragment
 import com.application.ui.messages.newMessage.NewMessageFragment

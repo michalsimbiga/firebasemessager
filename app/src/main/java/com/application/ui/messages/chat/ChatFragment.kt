@@ -5,22 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
+import com.application.data.model.Message
 import com.application.databinding.FragmentChatBinding
-import com.application.databinding.FragmentNewMessageBinding
-import com.application.model.User
-import com.application.net.MyResult
+import com.application.domain.common.AssistedViewModelFactory
+import com.application.extensions.empty
 import com.application.ui.base.BaseFragment
-import com.application.ui.messages.newMessage.NewMessageRecyclerAdapter
-import com.application.ui.messages.newMessage.NewMessageViewModel
-import com.application.vm.AssistedViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import javax.inject.Inject
 
 class ChatFragment : BaseFragment() {
     @Inject
     lateinit var savedStateVmFactory: AssistedViewModelFactory
 
-    private val viewModel: NewMessageViewModel by viewModels { savedStateVmFactory }
+    private val viewModel: ChatViewModel by viewModels { savedStateVmFactory }
     private val recyclerAdapter by lazy { ChatRecyclerViewAdapter() }
+
+    private val args: ChatFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentChatBinding
 
@@ -38,5 +40,21 @@ class ChatFragment : BaseFragment() {
             lifecycleOwner = viewLifecycleOwner
             return root
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.setNewReceipient(args.chatRecipient)
+        setupSendButtonListener()
+    }
+
+    private fun setupSendButtonListener() {
+        binding.fragmentChatSendButton.setOnClickListener { sendMessage(binding.fragmentChatSendMessage.text.toString()) }
+    }
+
+    private fun sendMessage(text: String) {
+        viewModel.sendMessage(text)
+        binding.fragmentChatSendMessage.setText(String.empty)
     }
 }

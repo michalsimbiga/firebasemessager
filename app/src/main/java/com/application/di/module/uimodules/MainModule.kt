@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.application.di.ViewModelKey
 import com.application.di.module.ViewModelAssistedFactory
-import com.application.ui.MainActivity
-import com.application.ui.MainViewModel
+import com.application.ui.main.MainActivity
+import com.application.ui.main.MainViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

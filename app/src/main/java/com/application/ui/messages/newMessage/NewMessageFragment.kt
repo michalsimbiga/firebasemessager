@@ -8,11 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.application.databinding.FragmentNewMessageBinding
-import com.application.model.User
+import com.application.data.model.User
 import com.application.net.MyResult
 import com.application.ui.base.BaseFragment
-import com.application.vm.AssistedViewModelFactory
-import timber.log.Timber
+import com.application.domain.common.AssistedViewModelFactory
 import javax.inject.Inject
 
 class NewMessageFragment : BaseFragment() {

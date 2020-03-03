@@ -1,4 +1,4 @@
-package com.application.ui.messages
+package com.application.ui.messages.messages
 
 import androidx.lifecycle.SavedStateHandle
 import com.application.di.module.ViewModelAssistedFactory

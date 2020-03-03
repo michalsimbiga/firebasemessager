@@ -16,7 +16,7 @@ import com.application.extensions.popBackstack
 import com.application.extensions.showSnack
 import com.application.net.MyResult
 import com.application.ui.base.BaseFragment
-import com.application.vm.AssistedViewModelFactory
+import com.application.domain.common.AssistedViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_register.*
 import javax.inject.Inject
