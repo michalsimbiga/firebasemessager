@@ -12,6 +12,8 @@ import com.application.data.model.User
 import com.application.net.MyResult
 import com.application.ui.base.BaseFragment
 import com.application.domain.common.AssistedViewModelFactory
+import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.fragment_new_message.*
 import javax.inject.Inject
 
 class NewMessageFragment : BaseFragment() {
@@ -61,7 +63,8 @@ class NewMessageFragment : BaseFragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         binding = null
+        new_message_fragment_recycler_view.adapter = null
+        super.onDestroyView()
     }
 }

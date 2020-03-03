@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.application.data.model.Message
 import com.application.databinding.FragmentChatBinding
 import com.application.domain.common.AssistedViewModelFactory
 import com.application.extensions.empty
 import com.application.ui.base.BaseFragment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.fragment_chat.*
 import javax.inject.Inject
 
 class ChatFragment : BaseFragment() {
@@ -24,7 +24,11 @@ class ChatFragment : BaseFragment() {
 
     private val args: ChatFragmentArgs by navArgs()
 
-    private lateinit var binding: FragmentChatBinding
+    private var binding: FragmentChatBinding? = null
+
+    private val messagesObserver = Observer<Message> { newMessage ->
+        recyclerAdapter.addMessage(newMessage)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,28 +37,38 @@ class ChatFragment : BaseFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        binding = FragmentChatBinding.inflate(inflater, container, false)
+        binding = FragmentChatBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
 
         setHasOptionsMenu(true)
-        with(binding) {
-            lifecycleOwner = viewLifecycleOwner
-            return root
-        }
+
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setNewReceipient(args.chatRecipient)
+        viewModel.messages.observe(viewLifecycleOwner, messagesObserver)
+
+        viewModel.setNewRecipient(args.chatRecipient)
+        recyclerAdapter.setRecipient(viewModel.recipient)
+        fragment_chat_recycler_view.adapter = recyclerAdapter
         setupSendButtonListener()
     }
 
     private fun setupSendButtonListener() {
-        binding.fragmentChatSendButton.setOnClickListener { sendMessage(binding.fragmentChatSendMessage.text.toString()) }
+        binding?.fragmentChatSendButton?.setOnClickListener { sendMessage(binding?.fragmentChatSendMessage?.text.toString()) }
     }
 
     private fun sendMessage(text: String) {
         viewModel.sendMessage(text)
-        binding.fragmentChatSendMessage.setText(String.empty)
+        binding?.fragmentChatSendMessage?.setText(String.empty)
+    }
+
+    override fun onDestroyView() {
+        fragment_chat_recycler_view.adapter = null
+        super.onDestroyView()
+        binding = null
     }
 }

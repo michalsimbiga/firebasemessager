@@ -17,13 +17,20 @@ class MainActivity : BaseActivity() {
     private val viewModel: MainViewModel by viewModels { savedStateVmFactory }
 
     private val navController: NavController by lazy {
-        findNavController(R.id.main_navigation)
+        findNavController(R.id.nav_host_fragment)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+        initNavGraph()
+    }
+
+    private fun initNavGraph() {
+        val navInflater = navController.navInflater
+        val graph = navInflater.inflate(R.navigation.main_navigation)
+        navController.graph = graph
     }
 
     override fun onBackPressed() = with(navController) {

@@ -1,41 +1,56 @@
 package com.application.ui.messages.chat
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.application.data.model.Message
 import com.application.databinding.FragmentChatRecyclerFromItemBinding
 import com.application.databinding.FragmentChatRecyclerMyItemBinding
 import com.application.data.model.User
 import com.bumptech.glide.Glide
 
-class ChatRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatRecyclerViewAdapter : RecyclerView.Adapter<ChatFromViewHolder>() {
 
-    private val chatMessages = linkedMapOf<String, User>()
+    private val chatMessages = mutableListOf<Message>()
 
-//    fun addMessages(list:)
+    private var receipient: User? = null
 
+    fun setRecipient(user: User) {
+        receipient = user
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun addMessages(list: List<Message>) {}
+
+    fun addMessage(message: Message) {
+        chatMessages.add(message)
+        notifyItemInserted(chatMessages.size)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatFromViewHolder {
+        val binding = FragmentChatRecyclerFromItemBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+
+        return ChatFromViewHolder(binding)
     }
 
     override fun getItemCount(): Int = chatMessages.size
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onBindViewHolder(holder: ChatFromViewHolder, position: Int) {
+        holder.bind(receipient, chatMessages[position])
     }
-
 }
 
 class ChatFromViewHolder(private val binding: FragmentChatRecyclerFromItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(user: User, message: String) = with(binding) {
+    fun bind(recipient: User?, message: Message) = with(binding) {
         Glide.with(root.context)
-            .load(user.profileImage)
+            .load(recipient?.profileImage)
             .centerCrop()
             .into(fragmentChatFromPicture)
 
-        binding.fragmentChatFromText.text = message
+        binding.fragmentChatFromText.text = message.text
     }
 }
 
