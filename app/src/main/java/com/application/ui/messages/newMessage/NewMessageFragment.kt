@@ -23,7 +23,7 @@ class NewMessageFragment : BaseFragment() {
     private val viewModel: NewMessageViewModel by viewModels { savedStateVmFactory }
     private val recyclerAdapter by lazy { NewMessageRecyclerAdapter() }
 
-    private lateinit var binding: FragmentNewMessageBinding
+    private var binding: FragmentNewMessageBinding? = null
 
     private val usersResponseObserver = Observer<MyResult<List<User>>> { result ->
         when (result) {
@@ -38,13 +38,13 @@ class NewMessageFragment : BaseFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        binding = FragmentNewMessageBinding.inflate(inflater, container, false)
+        binding = FragmentNewMessageBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
 
         setHasOptionsMenu(true)
-        with(binding) {
-            lifecycleOwner = viewLifecycleOwner
-            return root
-        }
+
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,6 +58,11 @@ class NewMessageFragment : BaseFragment() {
             findNavController().navigate(action)
         }
 
-        binding.newMessageFragmentRecyclerView.adapter = recyclerAdapter
+        binding?.newMessageFragmentRecyclerView?.adapter = recyclerAdapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

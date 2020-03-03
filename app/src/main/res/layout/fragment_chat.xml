@@ -16,12 +16,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <EditText
             android:id="@+id/fragment_chat_send_message"
             android:layout_width="@dimen/zero_dp"
             android:layout_height="@dimen/zero_dp"
             android:layout_marginStart="10dp"
             android:gravity="center_vertical"
+            android:background="@android:color/white"
+            android:hint="Enter Message"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/fragment_chat_send_button"
             app:layout_constraintStart_toStartOf="parent"

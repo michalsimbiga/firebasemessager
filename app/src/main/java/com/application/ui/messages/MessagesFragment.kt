@@ -18,7 +18,7 @@ class MessagesFragment : BaseFragment() {
 
     private val viewModel: MessagesViewModel by viewModels { savedStateVmFactory }
 
-    private lateinit var binding: FragmentMessagesBinding
+    private var binding: FragmentMessagesBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,17 +27,17 @@ class MessagesFragment : BaseFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        binding = FragmentMessagesBinding.inflate(inflater, container, false)
+        binding = FragmentMessagesBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
 
         setHasOptionsMenu(true)
-        with(binding) {
-            lifecycleOwner = viewLifecycleOwner
-            return root
-        }
+
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.messagesFragmentFab.setOnClickListener {
+        binding?.messagesFragmentFab?.setOnClickListener {
             navigateTo(R.id.nav_new_message_fragment)
         }
 
@@ -57,5 +57,10 @@ class MessagesFragment : BaseFragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

@@ -23,7 +23,7 @@ class LoginFragment : BaseFragment() {
 
     private val viewModel: LoginViewModel by viewModels { savedStateVmFactory }
 
-    private lateinit var binding: FragmentLoginBinding
+    private var binding: FragmentLoginBinding? = null
 
     private val loggedInResponseObserver = Observer<MyResult<Boolean>> { response ->
         when (response) {
@@ -40,13 +40,12 @@ class LoginFragment : BaseFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
-
-        with(binding) {
+        binding = FragmentLoginBinding.inflate(inflater, container, false).apply {
             viewModel = this@LoginFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
-            return root
         }
+
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,5 +53,10 @@ class LoginFragment : BaseFragment() {
 
         viewModel.signedInResponse.observe(viewLifecycleOwner, loggedInResponseObserver)
         login_register.setOnClickListener { navigateTo(R.id.nav_register_fragment) }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }
