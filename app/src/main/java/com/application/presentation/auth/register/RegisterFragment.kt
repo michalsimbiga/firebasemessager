@@ -1,4 +1,4 @@
-package com.application.ui.auth.register
+package com.application.presentation.auth.register
 
 import android.app.Activity
 import android.content.Intent
@@ -15,7 +15,7 @@ import com.application.extensions.navigateTo
 import com.application.extensions.popBackstack
 import com.application.extensions.showSnack
 import com.application.net.MyResult
-import com.application.ui.base.BaseFragment
+import com.application.presentation.base.BaseFragment
 import com.application.domain.common.AssistedViewModelFactory
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_register.*

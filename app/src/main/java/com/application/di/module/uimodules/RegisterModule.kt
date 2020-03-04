@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.application.di.ViewModelKey
 import com.application.di.module.ViewModelAssistedFactory
-import com.application.ui.auth.register.RegisterFragment
-import com.application.ui.auth.register.RegisterViewModel
+import com.application.presentation.auth.register.RegisterFragment
+import com.application.presentation.auth.register.RegisterViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

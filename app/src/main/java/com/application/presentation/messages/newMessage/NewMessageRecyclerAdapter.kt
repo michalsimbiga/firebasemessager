@@ -1,4 +1,4 @@
-package com.application.ui.messages.newMessage
+package com.application.presentation.messages.newMessage
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,4 +1,4 @@
-package com.application.ui.messages.chat
+package com.application.presentation.messages.chat
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -7,7 +7,7 @@ import com.application.repository.AuthenticationRepositoryImpl
 
 class CheckUserSignedInUseCase(private val authRepo: AuthenticationRepositoryImpl): NoParametersUseCase<Boolean>() {
     override suspend fun run(): MyResult<Boolean> {
-        val currentUser = authRepo.checkCurrentUser()
+        val currentUser = authRepo.getCurrentUser()
         return if(currentUser == null) success(false) else success(true)
     }
 }

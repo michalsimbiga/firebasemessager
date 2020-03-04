@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.application.di.ViewModelKey
 import com.application.di.module.ViewModelAssistedFactory
-import com.application.ui.messages.chat.ChatFragment
-import com.application.ui.messages.chat.ChatViewModel
+import com.application.presentation.messages.chat.ChatFragment
+import com.application.presentation.messages.chat.ChatViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

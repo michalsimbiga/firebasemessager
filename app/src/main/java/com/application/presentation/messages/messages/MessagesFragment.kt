@@ -1,4 +1,4 @@
-package com.application.ui.messages.messages
+package com.application.presentation.messages.messages
 
 import android.os.Bundle
 import android.view.*
@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import com.application.R
 import com.application.databinding.FragmentMessagesBinding
 import com.application.extensions.navigateTo
-import com.application.ui.base.BaseFragment
+import com.application.presentation.base.BaseFragment
 import com.application.domain.common.AssistedViewModelFactory
 import javax.inject.Inject
 

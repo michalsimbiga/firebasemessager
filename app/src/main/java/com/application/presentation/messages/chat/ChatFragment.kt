@@ -1,4 +1,4 @@
-package com.application.ui.messages.chat
+package com.application.presentation.messages.chat
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.application.data.model.Message
 import com.application.databinding.FragmentChatBinding
 import com.application.domain.common.AssistedViewModelFactory
 import com.application.extensions.empty
-import com.application.ui.base.BaseFragment
+import com.application.presentation.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_chat.*
 import javax.inject.Inject
 

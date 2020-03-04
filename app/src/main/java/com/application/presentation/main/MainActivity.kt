@@ -1,11 +1,11 @@
-package com.application.ui.main
+package com.application.presentation.main
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.application.R
-import com.application.ui.base.BaseActivity
+import com.application.presentation.base.BaseActivity
 import com.application.domain.common.AssistedViewModelFactory
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.application.ui.auth.register
+package com.application.presentation.auth.register
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
@@ -13,7 +13,7 @@ import com.application.extensions.empty
 import com.application.net.MyResult
 import com.application.net.failure
 import com.application.net.success
-import com.application.ui.base.BaseViewModel
+import com.application.presentation.base.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject

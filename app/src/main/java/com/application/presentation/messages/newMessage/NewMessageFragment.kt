@@ -1,4 +1,4 @@
-package com.application.ui.messages.newMessage
+package com.application.presentation.messages.newMessage
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,8 @@ import androidx.navigation.fragment.findNavController
 import com.application.databinding.FragmentNewMessageBinding
 import com.application.data.model.User
 import com.application.net.MyResult
-import com.application.ui.base.BaseFragment
+import com.application.presentation.base.BaseFragment
 import com.application.domain.common.AssistedViewModelFactory
-import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_new_message.*
 import javax.inject.Inject
 

@@ -1,12 +1,12 @@
 package com.application.di
 
 import com.application.di.module.uimodules.*
-import com.application.ui.auth.login.LoginFragment
-import com.application.ui.main.MainActivity
-import com.application.ui.messages.messages.MessagesFragment
-import com.application.ui.auth.register.RegisterFragment
-import com.application.ui.messages.chat.ChatFragment
-import com.application.ui.messages.newMessage.NewMessageFragment
+import com.application.presentation.auth.login.LoginFragment
+import com.application.presentation.main.MainActivity
+import com.application.presentation.messages.messages.MessagesFragment
+import com.application.presentation.auth.register.RegisterFragment
+import com.application.presentation.messages.chat.ChatFragment
+import com.application.presentation.messages.newMessage.NewMessageFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

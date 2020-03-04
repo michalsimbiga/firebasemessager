@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.application.di.ViewModelKey
 import com.application.di.module.ViewModelAssistedFactory
-import com.application.ui.messages.newMessage.NewMessageFragment
-import com.application.ui.messages.newMessage.NewMessageViewModel
+import com.application.presentation.messages.newMessage.NewMessageFragment
+import com.application.presentation.messages.newMessage.NewMessageViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

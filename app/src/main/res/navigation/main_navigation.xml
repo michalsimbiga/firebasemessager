@@ -6,23 +6,23 @@
 
     <fragment
         android:id="@+id/nav_login_fragment"
-        android:name="com.application.ui.auth.login.LoginFragment"
+        android:name="com.application.presentation.auth.login.LoginFragment"
         android:label="Main Fragment" />
 
     <fragment
         android:id="@+id/nav_register_fragment"
-        android:name="com.application.ui.auth.register.RegisterFragment"
+        android:name="com.application.presentation.auth.register.RegisterFragment"
         android:label="Register Fragment" />
 
     <fragment
         android:id="@+id/nav_messages_fragment"
-        android:name="com.application.ui.messages.messages.MessagesFragment"
+        android:name="com.application.presentation.messages.messages.MessagesFragment"
         android:label="Messages Fragment">
     </fragment>
 
     <fragment
         android:id="@+id/nav_new_message_fragment"
-        android:name="com.application.ui.messages.newMessage.NewMessageFragment"
+        android:name="com.application.presentation.messages.newMessage.NewMessageFragment"
         android:label="New Message Fragment" >
         <action
             android:id="@+id/action_nav_new_message_fragment_to_nav_chat_fragment"
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/nav_chat_fragment"
-        android:name="com.application.ui.messages.chat.ChatFragment"
+        android:name="com.application.presentation.messages.chat.ChatFragment"
         android:label="Chat Fragment">
         <argument
             android:name="chatRecipient"

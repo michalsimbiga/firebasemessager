@@ -1,8 +1,8 @@
-package com.application.ui.main
+package com.application.presentation.main
 
 import androidx.lifecycle.*
 import com.application.di.module.ViewModelAssistedFactory
-import com.application.ui.base.BaseViewModel
+import com.application.presentation.base.BaseViewModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 

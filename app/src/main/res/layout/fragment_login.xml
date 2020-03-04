@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.application.ui.auth.login.LoginViewModel" />
+            type="com.application.presentation.auth.login.LoginViewModel" />
 
     </data>
 

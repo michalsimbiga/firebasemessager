@@ -1,4 +1,4 @@
-package com.application.ui.auth.login
+package com.application.presentation.auth.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import com.application.R
 import com.application.databinding.FragmentLoginBinding
 import com.application.extensions.navigateTo
 import com.application.net.MyResult
-import com.application.ui.base.BaseFragment
+import com.application.presentation.base.BaseFragment
 import com.application.domain.common.AssistedViewModelFactory
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject

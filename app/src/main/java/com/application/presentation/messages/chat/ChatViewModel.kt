@@ -1,4 +1,4 @@
-package com.application.ui.messages.chat
+package com.application.presentation.messages.chat
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import com.application.data.model.User
 import com.application.di.module.ViewModelAssistedFactory
 import com.application.domain.usecase.databaseusecases.SendMessageToUserUseCase
 import com.application.extensions.delegate
-import com.application.ui.base.BaseViewModel
+import com.application.presentation.base.BaseViewModel
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

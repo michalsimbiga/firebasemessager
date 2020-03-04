@@ -1,4 +1,4 @@
-package com.application.ui.auth.login
+package com.application.presentation.auth.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import com.application.domain.usecase.authusecases.CheckUserSignedInUseCase
 import com.application.extensions.delegate
 import com.application.extensions.empty
 import com.application.net.MyResult
-import com.application.ui.base.BaseViewModel
+import com.application.presentation.base.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
