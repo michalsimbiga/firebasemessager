@@ -3,6 +3,7 @@ package com.application.repository
 import android.net.Uri
 import com.application.data.model.Message
 import com.application.data.model.User
+import com.application.domain.abstracts.StorageRepository
 import com.application.extensions.empty
 import com.application.net.MyResult
 import com.application.net.failure
@@ -21,9 +22,9 @@ class StorageRepositoryImpl(
     private val firebaseStorage: FirebaseStorage,
     private val firebaseDatabase: FirebaseDatabase,
     private val authRepositoryImpl: AuthenticationRepositoryImpl
-) {
+) : StorageRepository {
 
-    suspend fun uploadImageToFirebaseStorage(imageUri: Uri) =
+    override suspend fun uploadImageToFirebaseStorage(imageUri: Uri) =
         suspendCancellableCoroutine<MyResult<String>> { coroutine ->
             val filename = UUID.randomUUID().toString()
             val storageRef = firebaseStorage.getReference("/images/$filename")
@@ -44,7 +45,7 @@ class StorageRepositoryImpl(
                 .addOnCanceledListener { coroutine.cancel() }
         }
 
-    suspend fun saveUserToFirebaseDatabase(
+    override suspend fun saveUserToFirebaseDatabase(
         userUid: String, username: String, email: String, photoUrl: String
     ) = suspendCancellableCoroutine<MyResult<String>> { coroutine ->
         val dbReference = firebaseDatabase.getReference("/users/${userUid}}")
@@ -57,7 +58,7 @@ class StorageRepositoryImpl(
             .addOnCanceledListener { coroutine.cancel() }
     }
 
-    suspend fun fetchAllUsers() = suspendCancellableCoroutine<List<User>> { coroutine ->
+    override suspend fun fetchAllUsers() = suspendCancellableCoroutine<List<User>> { coroutine ->
         val ref = firebaseDatabase.getReference("/users")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -75,7 +76,7 @@ class StorageRepositoryImpl(
         })
     }
 
-    suspend fun sendMessageToUser(receipientUid: String, message: String) =
+    override suspend fun sendMessageToUser(receipientUid: String, message: String) =
         suspendCancellableCoroutine<MyResult<Boolean>> { coroutine ->
             val reference = firebaseDatabase.getReference("/messages").push()
 
