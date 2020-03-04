@@ -1,4 +1,4 @@
-package com.application.domain.abstracts
+package com.application.domain.repository
 
 import com.application.domain.net.MyResult
 import com.google.firebase.auth.FirebaseUser

@@ -1,4 +1,4 @@
-package com.application.domain.abstracts
+package com.application.domain.repository
 
 import android.net.Uri
 import com.application.data.model.User

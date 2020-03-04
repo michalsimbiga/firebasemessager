@@ -63,6 +63,7 @@ object Versions {
     val mockito = "2.13.0"
     val coroutinesTest = "1.3.1"
     val coreTesting = "2.0.1"
+    val mockk = "1.9.3"
 
     val glide = "4.10.0"
 
@@ -156,4 +157,6 @@ object TestLibraries {
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutinesTest}"
     val coreTesting = "androidx.arch.core:core-testing:${Versions.coreTesting}"
     val testRunner = "androidx.test:runner:${Versions.testRunner}"
+    val mockk = "io.mockk:mockk:${Versions.mockk}"
+    val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
 }

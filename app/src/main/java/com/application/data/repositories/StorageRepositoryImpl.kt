@@ -3,7 +3,8 @@ package com.application.data.repositories
 import android.net.Uri
 import com.application.data.model.Message
 import com.application.data.model.User
-import com.application.domain.abstracts.StorageRepository
+import com.application.domain.repository.AuthenticationRepository
+import com.application.domain.repository.StorageRepository
 import com.application.domain.extensions.empty
 import com.application.domain.net.MyResult
 import com.application.domain.net.failure
@@ -23,7 +24,7 @@ import kotlin.coroutines.resume
 class StorageRepositoryImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
     private val firebaseDatabase: FirebaseDatabase,
-    private val authRepositoryImpl: AuthenticationRepositoryImpl
+    private val authRepo: AuthenticationRepository
 ) : StorageRepository {
 
     override suspend fun uploadImageToFirebaseStorage(imageUri: Uri) =
@@ -82,7 +83,7 @@ class StorageRepositoryImpl @Inject constructor(
         suspendCancellableCoroutine<MyResult<Boolean>> { coroutine ->
             val reference = firebaseDatabase.getReference("/messages").push()
 
-            val fromId = authRepositoryImpl.getAuthenticatedUserUid() ?: String.empty
+            val fromId = authRepo.getAuthenticatedUserUid() ?: String.empty
 
             val prepedMessage = prepareMessage(
                 reference.key ?: String.empty,
@@ -104,7 +105,7 @@ class StorageRepositoryImpl @Inject constructor(
 
     private fun prepareUser(username: String, email: String, photoUrl: String) =
         User(
-            authRepositoryImpl.getAuthenticatedUserUid() ?: String.empty,
+            authRepo.getAuthenticatedUserUid() ?: String.empty,
             username,
             email,
             photoUrl

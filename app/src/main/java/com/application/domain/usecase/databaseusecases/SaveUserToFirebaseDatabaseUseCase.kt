@@ -1,7 +1,7 @@
 package com.application.domain.usecase.databaseusecases
 
-import com.application.domain.abstracts.AuthenticationRepository
-import com.application.domain.abstracts.StorageRepository
+import com.application.domain.repository.AuthenticationRepository
+import com.application.domain.repository.StorageRepository
 import com.application.domain.common.useCase.UseCase
 import com.application.domain.extensions.empty
 import com.application.domain.net.MyResult

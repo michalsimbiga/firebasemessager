@@ -3,10 +3,7 @@ package com.application.domain.common.useCase
 import com.application.domain.net.MyResult
 import com.application.domain.common.scheduler.DefaultSchedulers
 import com.application.domain.common.scheduler.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -40,4 +37,10 @@ abstract class NoParametersUseCase<out Type>(
             }
         }
     }
+}
+
+
+fun <T : NoParametersUseCase<*>> T.makeUnconfined() = apply {
+    backgroundContext = Dispatchers.Unconfined
+    foregroundContext = Dispatchers.Unconfined
 }

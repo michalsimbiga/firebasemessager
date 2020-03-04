@@ -1,6 +1,6 @@
 package com.application.data.repositories
 
-import com.application.domain.abstracts.AuthenticationRepository
+import com.application.domain.repository.AuthenticationRepository
 import com.application.domain.net.MyResult
 import com.application.domain.net.failure
 import com.application.domain.net.success

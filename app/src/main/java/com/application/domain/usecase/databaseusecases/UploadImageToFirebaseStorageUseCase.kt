@@ -1,7 +1,7 @@
 package com.application.domain.usecase.databaseusecases
 
 import android.net.Uri
-import com.application.domain.abstracts.StorageRepository
+import com.application.domain.repository.StorageRepository
 import com.application.domain.common.useCase.UseCase
 import com.application.domain.net.MyResult
 
