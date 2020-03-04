@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.application.databinding.FragmentNewMessageBinding
 import com.application.data.model.User
-import com.application.net.MyResult
+import com.application.domain.net.MyResult
 import com.application.presentation.base.BaseFragment
 import com.application.domain.common.AssistedViewModelFactory
 import kotlinx.android.synthetic.main.fragment_new_message.*

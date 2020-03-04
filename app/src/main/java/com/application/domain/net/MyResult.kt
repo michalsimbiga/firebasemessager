@@ -1,6 +1,6 @@
-package com.application.net
+package com.application.domain.net
 
-import com.application.extensions.empty
+import com.application.domain.extensions.empty
 
 sealed class MyResult<out T : Any> {
 

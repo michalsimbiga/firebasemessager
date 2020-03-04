@@ -11,10 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.application.R
 import com.application.databinding.FragmentRegisterBinding
-import com.application.extensions.navigateTo
-import com.application.extensions.popBackstack
-import com.application.extensions.showSnack
-import com.application.net.MyResult
+import com.application.domain.extensions.navigateTo
+import com.application.domain.extensions.popBackstack
+import com.application.domain.extensions.showSnack
+import com.application.domain.net.MyResult
 import com.application.presentation.base.BaseFragment
 import com.application.domain.common.AssistedViewModelFactory
 import com.bumptech.glide.Glide

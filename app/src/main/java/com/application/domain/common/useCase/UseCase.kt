@@ -1,6 +1,6 @@
 package com.application.domain.common.useCase
 
-import com.application.net.MyResult
+import com.application.domain.net.MyResult
 import com.application.domain.common.scheduler.DefaultSchedulers
 import com.application.domain.common.scheduler.Schedulers
 import kotlinx.coroutines.*

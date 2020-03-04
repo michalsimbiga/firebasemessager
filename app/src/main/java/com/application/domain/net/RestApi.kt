@@ -1,7 +1,4 @@
-package com.application.net
-
-import retrofit2.Response
-import retrofit2.http.GET
+package com.application.domain.net
 
 interface RestApi {
 

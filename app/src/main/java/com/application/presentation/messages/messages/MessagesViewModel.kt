@@ -2,7 +2,7 @@ package com.application.presentation.messages.messages
 
 import androidx.lifecycle.SavedStateHandle
 import com.application.di.module.ViewModelAssistedFactory
-import com.application.repository.AuthenticationRepositoryImpl
+import com.application.data.repositories.AuthenticationRepositoryImpl
 import com.application.presentation.base.BaseViewModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject

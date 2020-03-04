@@ -1,11 +1,11 @@
 package com.application.domain.usecase.databaseusecases
 
+import com.application.domain.abstracts.StorageRepository
 import com.application.domain.common.useCase.UseCase
-import com.application.net.MyResult
-import com.application.repository.StorageRepositoryImpl
+import com.application.domain.net.MyResult
 
 class SendMessageToUserUseCase(
-    private val storageRepo: StorageRepositoryImpl
+    private val storageRepo: StorageRepository
 ) : UseCase<Any, SendMessageToUserUseCase.Params>() {
 
     override suspend fun run(params: Params): MyResult<Boolean> =

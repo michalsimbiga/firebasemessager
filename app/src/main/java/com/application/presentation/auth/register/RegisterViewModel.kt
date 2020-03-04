@@ -8,11 +8,11 @@ import com.application.di.module.ViewModelAssistedFactory
 import com.application.domain.usecase.authusecases.CreateUserWithEmailAndPasswordUseCase
 import com.application.domain.usecase.databaseusecases.SaveUserToFirebaseDatabaseUseCase
 import com.application.domain.usecase.databaseusecases.UploadImageToFirebaseStorageUseCase
-import com.application.extensions.delegate
-import com.application.extensions.empty
-import com.application.net.MyResult
-import com.application.net.failure
-import com.application.net.success
+import com.application.domain.extensions.delegate
+import com.application.domain.extensions.empty
+import com.application.domain.net.MyResult
+import com.application.domain.net.failure
+import com.application.domain.net.success
 import com.application.presentation.base.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.inject.assisted.Assisted

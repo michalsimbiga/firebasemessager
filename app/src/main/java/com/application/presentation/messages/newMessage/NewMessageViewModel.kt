@@ -6,7 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.application.di.module.ViewModelAssistedFactory
 import com.application.domain.usecase.databaseusecases.FetchAllUsersUseCase
 import com.application.data.model.User
-import com.application.net.MyResult
+import com.application.domain.net.MyResult
 import com.application.presentation.base.BaseViewModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject

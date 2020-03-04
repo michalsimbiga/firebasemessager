@@ -1,11 +1,11 @@
 package com.application.domain.usecase.authusecases
 
+import com.application.domain.abstracts.AuthenticationRepository
 import com.application.domain.common.useCase.UseCase
-import com.application.net.MyResult
-import com.application.repository.AuthenticationRepositoryImpl
+import com.application.domain.net.MyResult
 
 class CreateUserWithEmailAndPasswordUseCase(
-    private val authRepo: AuthenticationRepositoryImpl
+    private val authRepo: AuthenticationRepository
 ): UseCase<Any, CreateUserWithEmailAndPasswordUseCase.Params>(){
 
     override suspend fun run(params: Params): MyResult<Any> =

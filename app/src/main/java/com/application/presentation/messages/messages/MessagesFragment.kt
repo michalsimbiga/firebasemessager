@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.application.R
 import com.application.databinding.FragmentMessagesBinding
-import com.application.extensions.navigateTo
+import com.application.domain.extensions.navigateTo
 import com.application.presentation.base.BaseFragment
 import com.application.domain.common.AssistedViewModelFactory
 import javax.inject.Inject

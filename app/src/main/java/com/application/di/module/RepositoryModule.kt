@@ -1,35 +1,21 @@
 package com.application.di.module
 
-import com.application.net.RestApi
-import com.application.repository.AuthenticationRepositoryImpl
-import com.application.repository.MyRepository
-import com.application.repository.StorageRepositoryImpl
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
+import com.application.domain.abstracts.AuthenticationRepository
+import com.application.domain.abstracts.StorageRepository
+import com.application.data.repositories.AuthenticationRepositoryImpl
+import com.application.data.repositories.StorageRepositoryImpl
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class RepositoryModule {
+abstract class RepositoryModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideRepository(restApi: RestApi): MyRepository = MyRepository(restApi)
+    abstract fun bindAuthenticationRepository(repository: AuthenticationRepositoryImpl): AuthenticationRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideAuthRepository(firebaseAuth: FirebaseAuth): AuthenticationRepositoryImpl =
-        AuthenticationRepositoryImpl(firebaseAuth)
-
-    @Provides
-    @Singleton
-    fun provideStorageRepository(
-        firebaseStorage: FirebaseStorage,
-        firebaseDatabase: FirebaseDatabase,
-        authRepo: AuthenticationRepositoryImpl
-    ): StorageRepositoryImpl =
-        StorageRepositoryImpl(firebaseStorage, firebaseDatabase, authRepo)
+    abstract fun bindStorageRepository(repository: StorageRepositoryImpl) : StorageRepository
 }

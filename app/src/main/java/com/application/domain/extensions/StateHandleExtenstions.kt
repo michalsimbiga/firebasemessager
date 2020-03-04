@@ -1,4 +1,4 @@
-package com.application.extensions
+package com.application.domain.extensions
 
 import androidx.lifecycle.SavedStateHandle
 import kotlin.properties.ReadWriteProperty

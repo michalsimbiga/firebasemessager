@@ -1,14 +1,14 @@
 package com.application.domain.usecase.databaseusecases
 
+import com.application.domain.abstracts.AuthenticationRepository
+import com.application.domain.abstracts.StorageRepository
 import com.application.domain.common.useCase.UseCase
-import com.application.extensions.empty
-import com.application.net.MyResult
-import com.application.repository.AuthenticationRepositoryImpl
-import com.application.repository.StorageRepositoryImpl
+import com.application.domain.extensions.empty
+import com.application.domain.net.MyResult
 
 class SaveUserToFirebaseDatabaseUseCase(
-    private val storageRepo: StorageRepositoryImpl,
-    private val authRepo: AuthenticationRepositoryImpl
+    private val storageRepo: StorageRepository,
+    private val authRepo: AuthenticationRepository
 ) : UseCase<Any, SaveUserToFirebaseDatabaseUseCase.Params>() {
 
     override suspend fun run(params: Params): MyResult<Any> =

@@ -8,7 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
 import com.google.gson.GsonBuilder
-import com.application.net.RestApi
+import com.application.domain.net.RestApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

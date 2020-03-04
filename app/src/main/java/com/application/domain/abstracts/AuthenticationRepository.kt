@@ -1,6 +1,6 @@
 package com.application.domain.abstracts
 
-import com.application.net.MyResult
+import com.application.domain.net.MyResult
 import com.google.firebase.auth.FirebaseUser
 
 interface AuthenticationRepository {

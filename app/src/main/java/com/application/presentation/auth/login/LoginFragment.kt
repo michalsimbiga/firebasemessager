@@ -8,8 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.application.R
 import com.application.databinding.FragmentLoginBinding
-import com.application.extensions.navigateTo
-import com.application.net.MyResult
+import com.application.domain.extensions.navigateTo
+import com.application.domain.net.MyResult
 import com.application.presentation.base.BaseFragment
 import com.application.domain.common.AssistedViewModelFactory
 import kotlinx.android.synthetic.main.fragment_login.*

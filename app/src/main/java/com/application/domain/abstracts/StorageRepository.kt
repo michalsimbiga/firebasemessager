@@ -2,7 +2,7 @@ package com.application.domain.abstracts
 
 import android.net.Uri
 import com.application.data.model.User
-import com.application.net.MyResult
+import com.application.domain.net.MyResult
 
 interface StorageRepository {
 

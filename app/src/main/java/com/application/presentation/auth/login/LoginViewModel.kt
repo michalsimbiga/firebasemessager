@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.application.di.module.ViewModelAssistedFactory
 import com.application.domain.usecase.authusecases.CheckUserSignedInUseCase
-import com.application.extensions.delegate
-import com.application.extensions.empty
-import com.application.net.MyResult
+import com.application.domain.extensions.delegate
+import com.application.domain.extensions.empty
+import com.application.domain.net.MyResult
 import com.application.presentation.base.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.inject.assisted.Assisted

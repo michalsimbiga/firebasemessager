@@ -1,7 +1,7 @@
 package com.application.data.model
 
 import android.os.Parcelable
-import com.application.extensions.empty
+import com.application.domain.extensions.empty
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

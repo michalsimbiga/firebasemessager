@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.application.data.model.Message
 import com.application.databinding.FragmentChatBinding
 import com.application.domain.common.AssistedViewModelFactory
-import com.application.extensions.empty
+import com.application.domain.extensions.empty
 import com.application.presentation.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_chat.*
 import javax.inject.Inject

@@ -1,14 +1,13 @@
-package com.application.repository
+package com.application.data.repositories
 
 import android.net.Uri
 import com.application.data.model.Message
 import com.application.data.model.User
 import com.application.domain.abstracts.StorageRepository
-import com.application.extensions.empty
-import com.application.net.MyResult
-import com.application.net.failure
-import com.application.net.success
-import com.google.firebase.auth.FirebaseAuth
+import com.application.domain.extensions.empty
+import com.application.domain.net.MyResult
+import com.application.domain.net.failure
+import com.application.domain.net.success
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -16,9 +15,12 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.resume
 
-class StorageRepositoryImpl(
+@Singleton
+class StorageRepositoryImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
     private val firebaseDatabase: FirebaseDatabase,
     private val authRepositoryImpl: AuthenticationRepositoryImpl

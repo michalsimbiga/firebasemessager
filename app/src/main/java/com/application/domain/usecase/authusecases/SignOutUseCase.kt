@@ -1,11 +1,11 @@
 package com.application.domain.usecase.authusecases
 
+import com.application.domain.abstracts.AuthenticationRepository
 import com.application.domain.common.useCase.NoParametersUseCase
-import com.application.net.MyResult
-import com.application.net.success
-import com.application.repository.AuthenticationRepositoryImpl
+import com.application.domain.net.MyResult
+import com.application.domain.net.success
 
-class SignOutUseCase(private val authRepo: AuthenticationRepositoryImpl) :
+class SignOutUseCase(private val authRepo: AuthenticationRepository) :
     NoParametersUseCase<Unit>() {
 
     override suspend fun run(): MyResult<Unit> {

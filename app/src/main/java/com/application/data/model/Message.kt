@@ -1,6 +1,6 @@
 package com.application.data.model
 
-import com.application.extensions.empty
+import com.application.domain.extensions.empty
 
 data class Message(
     val id: String = String.empty,

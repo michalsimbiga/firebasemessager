@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.application.domain.common.useCase.NoParametersUseCase
 import com.application.domain.common.useCase.UseCase
-import com.application.net.MyResult
-import com.application.net.failure
-import com.application.net.success
+import com.application.domain.net.MyResult
+import com.application.domain.net.failure
+import com.application.domain.net.success
 import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.*
 

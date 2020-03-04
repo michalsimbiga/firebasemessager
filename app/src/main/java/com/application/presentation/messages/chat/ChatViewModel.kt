@@ -7,7 +7,7 @@ import com.application.data.model.Message
 import com.application.data.model.User
 import com.application.di.module.ViewModelAssistedFactory
 import com.application.domain.usecase.databaseusecases.SendMessageToUserUseCase
-import com.application.extensions.delegate
+import com.application.domain.extensions.delegate
 import com.application.presentation.base.BaseViewModel
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
