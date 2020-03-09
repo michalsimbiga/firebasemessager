@@ -1,6 +1,7 @@
 package com.application.presentation.main
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -24,25 +25,25 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        initNavGraph()
+//        initNavGraph()
     }
 
-    private fun initNavGraph() {
-        val navInflater = navController.navInflater
-        val graph = navInflater.inflate(R.navigation.main_navigation)
-        navController.graph = graph
-    }
+//    private fun initNavGraph() {
+//        val navInflater = navController.navInflater
+//        val graph = navInflater.inflate(R.navigation.main_navigation)
+//        navController.graph = graph
+//    }
 
-    override fun onBackPressed() = with(navController) {
-        when (currentDestination?.id) {
-            R.id.nav_login_fragment -> finish()
-            R.id.nav_register_fragment -> popBackStack(R.id.nav_login_fragment, false)
-            R.id.nav_messages_fragment -> finish()
-            R.id.nav_new_message_fragment -> navigate(R.id.nav_messages_fragment)
-            R.id.nav_chat_fragment -> navigate(R.id.nav_messages_fragment)
-
-            else -> if (popBackStack().not()) finish()
-        }
-        Unit
-    }
+//    override fun onBackPressed() = with(navController) {
+//        when (currentDestination?.id) {
+//            R.id.nav_login_fragment -> finish()
+//            R.id.nav_register_fragment -> popBackStack(R.id.nav_login_fragment, false)
+//            R.id.nav_messages_fragment -> finish()
+//            R.id.nav_new_message_fragment -> navigate(R.id.nav_messages_fragment)
+//            R.id.nav_chat_fragment -> navigate(R.id.nav_messages_fragment)
+//
+//            else -> if (popBackStack().not()) finish()
+//        }
+//        Unit
+//    }
 }

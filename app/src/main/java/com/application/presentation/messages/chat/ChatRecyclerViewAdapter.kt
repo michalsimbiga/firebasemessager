@@ -30,7 +30,7 @@ class ChatRecyclerViewAdapter : AbstractChatRecyclerViewAdapter() {
         if (message.fromId == currentUser?.uid && message.toId == receipient?.uid)
             newMessage = MessageEntry.MessageTo(message)
         else if (message.fromId == receipient?.uid && message.toId == currentUser?.uid)
-            newMessage = MessageEntry.MessageTo(message)
+            newMessage = MessageEntry.MessageFrom(message)
         newMessage?.let { chatMessages = chatMessages + it }
     }
 
@@ -88,7 +88,8 @@ class ChatFromViewHolder(private val binding: FragmentChatRecyclerFromItemBindin
     BaseViewHolder<Pair<User?, MessageEntry?>>(binding.root) {
 
     override fun bind(item: Pair<User?, MessageEntry?>?) = with(binding) {
-        Glide.with(root.context)
+        Glide
+            .with(root.context)
             .load(item?.first?.profileImage)
             .centerCrop()
             .into(fragmentChatFromPicture)
@@ -101,7 +102,8 @@ class ChatMyViewHolder(private val binding: FragmentChatRecyclerMyItemBinding) :
     BaseViewHolder<Pair<User?, MessageEntry?>>(binding.root) {
 
     override fun bind(item: Pair<User?, MessageEntry?>?) = with(binding) {
-        Glide.with(root.context)
+        Glide
+            .with(root.context)
             .load(item?.first?.profileImage)
             .centerCrop()
             .into(fragmentChatFromPicture)
