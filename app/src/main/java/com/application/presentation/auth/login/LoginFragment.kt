@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.application.R
+import com.application.data.model.User
 import com.application.databinding.FragmentLoginBinding
 import com.application.domain.extensions.navigateTo
 import com.application.domain.net.MyResult
 import com.application.presentation.base.BaseFragment
 import com.application.domain.common.AssistedViewModelFactory
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
 
@@ -24,12 +26,8 @@ class LoginFragment : BaseFragment() {
 
     private var binding: FragmentLoginBinding? = null
 
-    private val loggedInResponseObserver = Observer<MyResult<Boolean>> { response ->
-        when (response) {
-            is MyResult.Success -> {
-                if (response.data) navigateTo(R.id.nav_messages_fragment)
-            }
-        }
+    private val loggedInResponseObserver = Observer<MyResult<User>> { response ->
+        if (response is MyResult.Success) navigateTo(R.id.nav_messages_fragment)
     }
 
     override fun onCreateView(

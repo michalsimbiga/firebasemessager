@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.application.data.model.Message
+import com.application.data.model.User
 import com.application.databinding.FragmentChatBinding
 import com.application.domain.common.AssistedViewModelFactory
 import com.application.domain.extensions.empty
@@ -26,9 +27,11 @@ class ChatFragment : BaseFragment() {
 
     private var binding: FragmentChatBinding? = null
 
-    private val messagesObserver = Observer<Message> { newMessage ->
-        recyclerAdapter.addMessage(newMessage)
-    }
+    private val messagesObserver =
+        Observer<Message> { newMessage -> recyclerAdapter.addMessage(newMessage) }
+
+    private val currentUserObserver =
+        Observer<User> { user -> recyclerAdapter.setCurrentUser(user) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +53,7 @@ class ChatFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.messages.observe(viewLifecycleOwner, messagesObserver)
+        viewModel.currentUser.observe(viewLifecycleOwner, currentUserObserver)
 
         viewModel.setNewRecipient(args.chatRecipient)
         recyclerAdapter.setRecipient(viewModel.recipient)

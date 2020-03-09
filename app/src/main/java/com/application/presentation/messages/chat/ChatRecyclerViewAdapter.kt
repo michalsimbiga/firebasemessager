@@ -1,69 +1,112 @@
 package com.application.presentation.messages.chat
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.application.data.model.Message
 import com.application.databinding.FragmentChatRecyclerFromItemBinding
 import com.application.databinding.FragmentChatRecyclerMyItemBinding
 import com.application.data.model.User
+import com.application.domain.extensions.autoNotify
+import com.application.presentation.base.BaseViewHolder
 import com.bumptech.glide.Glide
+import kotlin.properties.Delegates
 
-class ChatRecyclerViewAdapter : RecyclerView.Adapter<ChatFromViewHolder>() {
+class ChatRecyclerViewAdapter : AbstractChatRecyclerViewAdapter() {
 
-    private val chatMessages = mutableListOf<Message>()
+    private var chatMessages: List<MessageEntry> by Delegates.observable(emptyList()) { _, oldList, newList ->
+        autoNotify(oldList, newList) { old, new -> old.message.id == new.message.id }
+    }
 
     private var receipient: User? = null
+    private var currentUser: User? = null
 
-    fun setRecipient(user: User) {
-        receipient = user
-    }
+    fun setRecipient(user: User) = run { receipient = user }
+    fun setCurrentUser(user: User) = run { currentUser = user }
 
-    fun addMessages(list: List<Message>) {}
-
-    fun addMessage(message: Message) {
-        chatMessages.add(message)
-        notifyItemInserted(chatMessages.size)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatFromViewHolder {
-        val binding = FragmentChatRecyclerFromItemBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
-
-        return ChatFromViewHolder(binding)
+    fun addMessage(message: Message) = run {
+        var newMessage: MessageEntry? = null
+        if (message.fromId == currentUser?.uid && message.toId == receipient?.uid)
+            newMessage = MessageEntry.MessageTo(message)
+        else if (message.fromId == receipient?.uid && message.toId == currentUser?.uid)
+            newMessage = MessageEntry.MessageTo(message)
+        newMessage?.let { chatMessages = chatMessages + it }
     }
 
     override fun getItemCount(): Int = chatMessages.size
 
-    override fun onBindViewHolder(holder: ChatFromViewHolder, position: Int) {
-        holder.bind(receipient, chatMessages[position])
+    override fun getItemViewType(position: Int): Int {
+        return when (chatMessages[position]) {
+            is MessageEntry.MessageTo -> RecyclerViewType.MessageTo.id
+            is MessageEntry.MessageFrom -> RecyclerViewType.MessageFrom.id
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
+        val layoutInflater = LayoutInflater.from(parent.context)
+
+        return when (RecyclerViewType.fromId(viewType)) {
+            RecyclerViewType.MessageTo ->
+                ChatMyViewHolder(
+                    FragmentChatRecyclerMyItemBinding.inflate(layoutInflater, parent, false)
+                )
+            RecyclerViewType.MessageFrom ->
+                ChatFromViewHolder(
+                    FragmentChatRecyclerFromItemBinding.inflate(layoutInflater, parent, false)
+                )
+        }
+    }
+
+    override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
+        when (holder) {
+            is ChatMyViewHolder -> holder.bind(Pair(currentUser, chatMessages[position]))
+            is ChatFromViewHolder -> holder.bind(Pair(receipient, chatMessages[position]))
+        }
     }
 }
 
-class ChatFromViewHolder(private val binding: FragmentChatRecyclerFromItemBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+enum class RecyclerViewType(val id: Int) {
+    MessageFrom(0),
+    MessageTo(1);
 
-    fun bind(recipient: User?, message: Message) = with(binding) {
+    companion object {
+        fun fromId(id: Int): RecyclerViewType = when (id) {
+            MessageFrom.id -> MessageFrom
+            MessageTo.id -> MessageTo
+            else -> throw error("Id not present")
+        }
+    }
+}
+
+sealed class MessageEntry(var message: Message) {
+    data class MessageFrom(val newMessage: Message) : MessageEntry(newMessage)
+    data class MessageTo(val newMessage: Message) : MessageEntry(newMessage)
+}
+
+class ChatFromViewHolder(private val binding: FragmentChatRecyclerFromItemBinding) :
+    BaseViewHolder<Pair<User?, MessageEntry?>>(binding.root) {
+
+    override fun bind(item: Pair<User?, MessageEntry?>?) = with(binding) {
         Glide.with(root.context)
-            .load(recipient?.profileImage)
+            .load(item?.first?.profileImage)
             .centerCrop()
             .into(fragmentChatFromPicture)
 
-        binding.fragmentChatFromText.text = message.text
+        binding.fragmentChatFromText.text = item?.second?.message?.text
     }
 }
 
 class ChatMyViewHolder(private val binding: FragmentChatRecyclerMyItemBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+    BaseViewHolder<Pair<User?, MessageEntry?>>(binding.root) {
 
-    fun bind(user: User, message: String) = with(binding) {
+    override fun bind(item: Pair<User?, MessageEntry?>?) = with(binding) {
         Glide.with(root.context)
-            .load(user.profileImage)
+            .load(item?.first?.profileImage)
             .centerCrop()
             .into(fragmentChatFromPicture)
 
-        binding.fragmentChatFromText.text = message
+        binding.fragmentChatFromText.text = item?.second?.message?.text
     }
 }
 

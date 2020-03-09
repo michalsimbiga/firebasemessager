@@ -5,9 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.application.data.model.Message
 import com.application.data.model.User
+import com.application.data.model.toUser
 import com.application.di.module.ViewModelAssistedFactory
 import com.application.domain.usecase.databaseusecases.SendMessageToUserUseCase
 import com.application.domain.extensions.delegate
+import com.application.domain.net.MyResult
+import com.application.domain.usecase.authusecases.GetCurrentUserUseCase
 import com.application.presentation.base.BaseViewModel
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -18,16 +21,21 @@ import com.squareup.inject.assisted.AssistedInject
 
 class ChatViewModel @AssistedInject constructor(
     @Assisted private val stateHandle: SavedStateHandle,
-    private val sendMessageToUserUseCase: SendMessageToUserUseCase
+    private val sendMessageToUserUseCase: SendMessageToUserUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase
 ) : BaseViewModel() {
 
     @AssistedInject.Factory
     interface Factory : ViewModelAssistedFactory<ChatViewModel>
 
     private val _message = MutableLiveData<Message>()
-    val messages : LiveData<Message> = _message
+    val messages: LiveData<Message> = _message
+
+    private val _currentUser = MutableLiveData<User>()
+    val currentUser: LiveData<User> = _currentUser
 
     init {
+        getCurrentUser()
         listenForMessages()
     }
 
@@ -41,6 +49,13 @@ class ChatViewModel @AssistedInject constructor(
         sendMessageToUserUseCase.execute(
             params = SendMessageToUserUseCase.Params(recipient.uid, message),
             stateReducer = {}
+        )
+    }
+
+    private fun getCurrentUser() {
+        getCurrentUserUseCase.execute(
+            mapper = { firebaseUser -> firebaseUser.toUser() },
+            stateReducer = { user -> if (user is MyResult.Success) _currentUser.value = user.data }
         )
     }
 

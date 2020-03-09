@@ -2,7 +2,7 @@ package com.application.di.module
 
 import com.application.domain.repository.AuthenticationRepository
 import com.application.domain.repository.StorageRepository
-import com.application.domain.usecase.authusecases.CheckUserSignedInUseCase
+import com.application.domain.usecase.authusecases.GetCurrentUserUseCase
 import com.application.domain.usecase.authusecases.CreateUserWithEmailAndPasswordUseCase
 import com.application.domain.usecase.authusecases.SignOutUseCase
 import com.application.domain.usecase.databaseusecases.FetchAllUsersUseCase
@@ -35,8 +35,8 @@ class UseCaseModule {
         SignOutUseCase(authRepo)
 
     @Provides
-    fun bindCheckUserSignedInUseCase(authRepo: AuthenticationRepository): CheckUserSignedInUseCase =
-        CheckUserSignedInUseCase(authRepo)
+    fun bindCheckUserSignedInUseCase(authRepo: AuthenticationRepository): GetCurrentUserUseCase =
+        GetCurrentUserUseCase(authRepo)
 
     @Provides
     fun bindFetchAllUsersUseCase(storageRepo: StorageRepository): FetchAllUsersUseCase =

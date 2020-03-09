@@ -5,13 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.application.databinding.FragmentNewMessageRecyclerItemBinding
 import com.application.data.model.User
+import com.application.domain.extensions.autoNotify
 import com.bumptech.glide.Glide
+import kotlin.properties.Delegates
 
 typealias onUserItemClickListener = (User) -> Unit
 
 class NewMessageRecyclerAdapter : RecyclerView.Adapter<NewMessageViewHolder>() {
 
-    private val people: MutableList<User> = mutableListOf()
+    private var people: List<User> by Delegates.observable(emptyList()) { _, oldList, newList ->
+        autoNotify(oldList, newList) { oldData, newData -> oldData.uid == newData.uid }
+    }
 
     private var onUserItemClickListener: onUserItemClickListener? = null
 
@@ -19,11 +23,7 @@ class NewMessageRecyclerAdapter : RecyclerView.Adapter<NewMessageViewHolder>() {
         onUserItemClickListener = callback
     }
 
-    fun setNewData(list: List<User>) {
-        people.clear()
-        people.addAll(list)
-        notifyDataSetChanged()
-    }
+    fun setNewData(list: List<User>) = run { people = list }
 
     override fun getItemCount() = people.size
 
