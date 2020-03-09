@@ -28,7 +28,11 @@ class ChatFragment : BaseFragment() {
     private var binding: FragmentChatBinding? = null
 
     private val messagesObserver =
-        Observer<Message> { newMessage -> recyclerAdapter.addMessage(newMessage) }
+        Observer<Message> { newMessage ->
+            recyclerAdapter.addMessage(newMessage).also {
+                fragment_chat_recycler_view.smoothScrollToPosition(recyclerAdapter.itemCount)
+            }
+        }
 
     private val currentUserObserver =
         Observer<User> { user -> recyclerAdapter.setCurrentUser(user) }

@@ -35,7 +35,6 @@ class LoginViewModel @AssistedInject constructor(
 
     private fun checkIfSignedIn() {
         getCurrentUserUseCase.execute(
-            mapper = { firebaseUser -> firebaseUser.toUser().also { Timber.d("Curent user $it") } },
             stateReducer = { response -> _signedInResponse.value = response }
         )
     }

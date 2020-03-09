@@ -46,6 +46,7 @@ class ChatViewModel @AssistedInject constructor(
     }
 
     fun sendMessage(message: String) {
+        if (message.isBlank()) return
         sendMessageToUserUseCase.execute(
             params = SendMessageToUserUseCase.Params(recipient.uid, message),
             stateReducer = {}
@@ -54,7 +55,6 @@ class ChatViewModel @AssistedInject constructor(
 
     private fun getCurrentUser() {
         getCurrentUserUseCase.execute(
-            mapper = { firebaseUser -> firebaseUser.toUser() },
             stateReducer = { user -> if (user is MyResult.Success) _currentUser.value = user.data }
         )
     }

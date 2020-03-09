@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.application.domain.extensions.empty
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.parcel.Parcelize
+import timber.log.Timber
 
 @Parcelize
 data class User(
@@ -20,4 +21,4 @@ fun FirebaseUser.toUser() = User(
     email = email ?: String.empty,
     profileImage = photoUrl.toString(),
     username = displayName ?: String.empty
-)
+).also { Timber.i("TESTIN toUser $it") }
