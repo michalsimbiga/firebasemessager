@@ -10,8 +10,5 @@ import com.google.firebase.auth.FirebaseUser
 
 class GetCurrentUserUseCase(private val authRepo: AuthenticationRepository) :
     NoParametersUseCase<FirebaseUser>() {
-    override suspend fun run(): MyResult<FirebaseUser> {
-        val currentUser = authRepo.getCurrentUser()
-        return if (currentUser == null) failure(MyError.UserNotSignedIn()) else success(currentUser)
-    }
+    override suspend fun run(): MyResult<FirebaseUser> = authRepo.getCurrentUser()
 }

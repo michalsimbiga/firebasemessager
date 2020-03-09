@@ -11,9 +11,9 @@ import com.application.domain.extensions.empty
 import com.application.domain.net.MyResult
 import com.application.domain.usecase.authusecases.GetCurrentUserUseCase
 import com.application.presentation.base.BaseViewModel
-import com.google.firebase.auth.FirebaseUser
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import timber.log.Timber
 
 class LoginViewModel @AssistedInject constructor(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
@@ -35,7 +35,7 @@ class LoginViewModel @AssistedInject constructor(
 
     private fun checkIfSignedIn() {
         getCurrentUserUseCase.execute(
-            mapper = {it.toUser()},
+            mapper = { firebaseUser -> firebaseUser.toUser().also { Timber.d("Curent user $it") } },
             stateReducer = { response -> _signedInResponse.value = response }
         )
     }

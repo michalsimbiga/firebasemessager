@@ -1,6 +1,5 @@
 package com.application.domain.net
 
-import com.application.domain.errorHandling.MyError
 import com.application.domain.extensions.empty
 
 sealed class MyResult<out T : Any> {
@@ -16,10 +15,10 @@ fun failure(exception: Exception) =
 
 @Suppress("UNCHECKED_CAST")
 inline fun <T : Any, A> MyResult<T>.fold(
-    error: (MyError) -> A = { this as A },
-    success: (T) -> A = { this as A }
+    foldError: (Exception) -> A = { this as A },
+    foldSuccess: (T) -> A = { this as A }
 ): A = when (this) {
-    is MyResult.Failure -> error(this.exception)
-    is MyResult.Success -> success(this.data)
+    is MyResult.Failure -> foldError(this.exception)
+    is MyResult.Success -> foldSuccess(this.data)
     is MyResult.Loading -> Unit as A
 }

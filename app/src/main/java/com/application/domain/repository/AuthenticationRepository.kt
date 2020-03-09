@@ -8,6 +8,6 @@ interface AuthenticationRepository {
     suspend fun createUserWithEmailAndPassword(email: String, password: String): MyResult<Unit>
 
     fun getAuthenticatedUserUid(): String?
-    fun getCurrentUser(): FirebaseUser?
+    fun getCurrentUser(): MyResult<FirebaseUser>
     fun signOut()
 }

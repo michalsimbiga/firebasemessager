@@ -1,10 +1,12 @@
 package com.application.data.repositories
 
+import com.application.domain.errorHandling.MyError
 import com.application.domain.repository.AuthenticationRepository
 import com.application.domain.net.MyResult
 import com.application.domain.net.failure
 import com.application.domain.net.success
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -26,7 +28,10 @@ class AuthenticationRepositoryImpl @Inject constructor(private val firebaseAuth:
 
     override fun getAuthenticatedUserUid() = firebaseAuth.uid
 
-    override fun getCurrentUser() = firebaseAuth.currentUser
+    override fun getCurrentUser(): MyResult<FirebaseUser> {
+        val user = firebaseAuth.currentUser
+        return if (user == null) failure(Exception("User not signed in")) else success(user)
+    }
 
     override fun signOut() = firebaseAuth.signOut()
 }

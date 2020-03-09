@@ -58,8 +58,8 @@ abstract class BaseViewModel : ViewModel() {
         receiver: responseReceiver<V>
     ) =
         result.fold(
-            error = { handleError(it, receiver) },
-            success = {
+            foldError = { handleError(it, receiver) },
+            foldSuccess = {
                 val success = MyResult.Success(mapper(it))
                 receiver(success)
             }
@@ -70,15 +70,15 @@ abstract class BaseViewModel : ViewModel() {
         receiver: responseReceiver<T>
     ) =
         result.fold(
-            error = { handleError(it, receiver) },
-            success = {
+            foldError = { handleError(it, receiver) },
+            foldSuccess = {
                 val success = MyResult.Success(it)
                 receiver(success)
             }
         )
 
-    private fun <T : Any> handleError(error: MyError, receiver: responseReceiver<T>) {
-        Timber.e("Error ${error.originalException} ${error.originalException?.message}")
+    private fun <T : Any> handleError(error: Exception, receiver: responseReceiver<T>) {
+        Timber.e("Error ${error.message} ${error.localizedMessage}")
         receiver(failure(error))
     }
 
