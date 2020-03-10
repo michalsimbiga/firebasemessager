@@ -52,10 +52,18 @@ class LoginFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.signedInResponse.observe(viewLifecycleOwner, loggedInResponseObserver)
-        viewModel.loginResponse.observe(viewLifecycleOwner, loginResponseObserver)
-        login_register.setOnClickListener { navigateTo(R.id.nav_register_fragment) }
-        login_button.setOnClickListener { viewModel.logIn() }
+        setupObservers()
+        setupOnClickListeners()
+    }
+
+    private fun setupOnClickListeners() = with(binding) {
+        this?.loginRegister?.setOnClickListener { navigateTo(R.id.nav_register_fragment) }
+        this?.loginButton?.setOnClickListener { viewModel.logIn() }
+    }
+
+    private fun setupObservers() = with(viewModel) {
+        signedInResponse.observe(viewLifecycleOwner, loggedInResponseObserver)
+        loginResponse.observe(viewLifecycleOwner, loginResponseObserver)
     }
 
     override fun onDestroyView() {

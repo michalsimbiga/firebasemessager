@@ -50,20 +50,30 @@ class NewMessageFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.userDataResponse.observe(viewLifecycleOwner, usersResponseObserver)
+        setupObservers()
+        setupOnClickListeners()
+        setupRecycler()
+    }
 
+    private fun setupOnClickListeners() = with(binding) {
         recyclerAdapter.setOnUserItemClickListener { user ->
             val action =
                 NewMessageFragmentDirections.actionNavNewMessageFragmentToNavChatFragment(user)
             findNavController().navigate(action)
         }
+    }
 
-        binding?.newMessageFragmentRecyclerView?.adapter = recyclerAdapter
+    private fun setupObservers() = with(viewModel) {
+        userDataResponse.observe(viewLifecycleOwner, usersResponseObserver)
+    }
+
+    private fun setupRecycler() = with(binding) {
+        this?.newMessageFragmentRecyclerView?.adapter = recyclerAdapter
     }
 
     override fun onDestroyView() {
+        binding?.newMessageFragmentRecyclerView?.adapter = null
         binding = null
-        new_message_fragment_recycler_view.adapter = null
         super.onDestroyView()
     }
 }

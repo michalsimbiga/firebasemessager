@@ -37,11 +37,15 @@ class MessagesFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding?.messagesFragmentFab?.setOnClickListener {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupOnClickListeners()
+    }
+
+    private fun setupOnClickListeners() = with(binding) {
+        this?.messagesFragmentFab?.setOnClickListener {
             navigateTo(R.id.nav_new_message_fragment)
         }
-
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -48,18 +48,24 @@ class RegisterFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.responseLiveData.observe(viewLifecycleOwner, Observer { result ->
+        setupObservers()
+        setupOnClickListeners()
+    }
+
+    private fun setupOnClickListeners() = with(binding){
+        this?.registerLogin?.setOnClickListener { popBackstack() }
+        this?.registerButton?.setOnClickListener { viewModel.register() }
+        this?.userImage?.setOnClickListener { startPhotoPicker() }
+    }
+
+    private fun setupObservers() = with(viewModel){
+        responseLiveData.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is MyResult.Success -> navigateTo(R.id.nav_messages_fragment)
                 is MyResult.Failure -> showSnack(result.message)
                 is MyResult.Loading -> register_button.isEnabled = result.isLoading.not()
             }
         })
-
-        register_login.setOnClickListener { popBackstack() }
-        register_button.setOnClickListener { viewModel.register() }
-
-        user_image.setOnClickListener { startPhotoPicker() }
     }
 
     private fun startPhotoPicker() {
