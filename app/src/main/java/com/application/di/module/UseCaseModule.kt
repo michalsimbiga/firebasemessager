@@ -4,6 +4,7 @@ import com.application.domain.repository.AuthenticationRepository
 import com.application.domain.repository.StorageRepository
 import com.application.domain.usecase.authusecases.GetCurrentUserUseCase
 import com.application.domain.usecase.authusecases.CreateUserWithEmailAndPasswordUseCase
+import com.application.domain.usecase.authusecases.LogInWithEmailAndPasswordUseCase
 import com.application.domain.usecase.authusecases.SignOutUseCase
 import com.application.domain.usecase.databaseusecases.FetchAllUsersUseCase
 import com.application.domain.usecase.databaseusecases.SaveUserToFirebaseDatabaseUseCase
@@ -45,4 +46,8 @@ class UseCaseModule {
     @Provides
     fun bindSendMessageToUserUseCase(storageRepo: StorageRepository): SendMessageToUserUseCase =
         SendMessageToUserUseCase(storageRepo)
+
+    @Provides
+    fun bindLogInWithEmailAndPasswordUseCase(authRepo: AuthenticationRepository): LogInWithEmailAndPasswordUseCase =
+        LogInWithEmailAndPasswordUseCase(authRepo)
 }

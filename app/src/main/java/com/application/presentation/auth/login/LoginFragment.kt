@@ -30,6 +30,10 @@ class LoginFragment : BaseFragment() {
         if (response is MyResult.Success) navigateTo(R.id.nav_messages_fragment)
     }
 
+    private val loginResponseObserver = Observer<MyResult<Any>> { response ->
+        if (response is MyResult.Success) navigateTo(R.id.nav_messages_fragment)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,7 +53,9 @@ class LoginFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.signedInResponse.observe(viewLifecycleOwner, loggedInResponseObserver)
+        viewModel.loginResponse.observe(viewLifecycleOwner, loginResponseObserver)
         login_register.setOnClickListener { navigateTo(R.id.nav_register_fragment) }
+        login_button.setOnClickListener { viewModel.logIn() }
     }
 
     override fun onDestroyView() {

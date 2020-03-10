@@ -19,16 +19,20 @@
             android:id="@+id/login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@={viewModel.loginUsername}"
-            android:hint="Username" />
+            android:hint="Email"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:nextFocusDown="@id/login_password"
+            android:text="@={viewModel.loginEmail}" />
 
         <EditText
             android:id="@+id/login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            android:text="@={viewModel.loginPassword}"
-            android:inputType="textPassword" />
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:text="@={viewModel.loginPassword}" />
 
         <Button
             android:id="@+id/login_button"

@@ -31,9 +31,9 @@
             android:gravity="end|center_vertical"
             android:maxWidth="270dp"
             android:paddingStart="14dp"
-            android:paddingTop="2dp"
+            android:paddingTop="5dp"
             android:paddingEnd="14dp"
-            android:paddingBottom="2dp"
+            android:paddingBottom="5dp"
             app:layout_constraintEnd_toStartOf="@id/fragment_chat_from_picture"
             app:layout_constraintTop_toTopOf="@id/fragment_chat_from_picture"
             tools:text="This is a sample chat message text" />

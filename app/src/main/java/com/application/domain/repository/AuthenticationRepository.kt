@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseUser
 interface AuthenticationRepository {
 
     suspend fun createUserWithEmailAndPassword(email: String, password: String): MyResult<Unit>
+    suspend fun logInWithEmailAndPassword(email: String, password: String): MyResult<Unit>
 
     fun getCurrentUser(): FirebaseUser?
     fun getAuthenticatedUserUid(): String?

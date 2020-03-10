@@ -25,6 +25,17 @@ class AuthenticationRepositoryImpl @Inject constructor(
                 .addOnCanceledListener { coroutine.cancel() }
         }
 
+    override suspend fun logInWithEmailAndPassword(
+        email: String,
+        password: String
+    ): MyResult<Unit> = suspendCancellableCoroutine<MyResult<Unit>> { coroutine ->
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (it.isSuccessful) coroutine.resume(success(Unit))
+                else coroutine.resume(failure(it.exception!!))
+            }
+    }
+
     override fun getAuthenticatedUserUid() = firebaseAuth.uid
     override fun getCurrentUser() = firebaseAuth.currentUser
 
