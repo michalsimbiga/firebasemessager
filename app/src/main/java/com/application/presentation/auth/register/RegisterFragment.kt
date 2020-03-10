@@ -54,7 +54,7 @@ class RegisterFragment : BaseFragment() {
 
     private fun setupOnClickListeners() = with(binding){
         this?.registerLogin?.setOnClickListener { popBackstack() }
-        this?.registerButton?.setOnClickListener { viewModel.register() }
+        this?.registerButton?.setOnClickListener { viewModel?.register() }
         this?.userImage?.setOnClickListener { startPhotoPicker() }
     }
 

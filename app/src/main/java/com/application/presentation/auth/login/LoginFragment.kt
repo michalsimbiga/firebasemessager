@@ -58,7 +58,7 @@ class LoginFragment : BaseFragment() {
 
     private fun setupOnClickListeners() = with(binding) {
         this?.loginRegister?.setOnClickListener { navigateTo(R.id.nav_register_fragment) }
-        this?.loginButton?.setOnClickListener { viewModel.logIn() }
+        this?.loginButton?.setOnClickListener { viewModel?.logIn() }
     }
 
     private fun setupObservers() = with(viewModel) {
