@@ -34,7 +34,10 @@ class ChatViewModel @AssistedInject constructor(
     private val _currentUser = MutableLiveData<User>()
     val currentUser: LiveData<User> = _currentUser
 
+    private var messagesCache by stateHandle.delegate(listOf<Message>())
+
     init {
+        recoverFromCache()
         getCurrentUser()
         listenForMessages()
     }
@@ -59,6 +62,15 @@ class ChatViewModel @AssistedInject constructor(
         )
     }
 
+    private fun recoverFromCache() {
+        for (message in messagesCache) _message.postValue(message)
+        val list = listOf<Message>()
+    }
+
+    private fun saveToCache(message: Message) {
+        messagesCache = messagesCache + message
+    }
+
     private fun listenForMessages() {
         val ref = FirebaseDatabase.getInstance().getReference("/messages")
 
@@ -69,7 +81,7 @@ class ChatViewModel @AssistedInject constructor(
             override fun onChildRemoved(p0: DataSnapshot) {}
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val chatMessage = p0.getValue(Message::class.java) ?: return
-                _message.value = chatMessage
+                _message.value = chatMessage.also { saveToCache(it) }
             }
         })
     }

@@ -21,4 +21,4 @@ fun FirebaseUser.toUser() = User(
     email = email ?: String.empty,
     profileImage = photoUrl.toString(),
     username = displayName ?: String.empty
-).also { Timber.i("TESTIN toUser $it") }
+)
