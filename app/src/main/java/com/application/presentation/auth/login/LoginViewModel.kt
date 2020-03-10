@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.application.data.model.User
-import com.application.data.model.toUser
 import com.application.di.module.ViewModelAssistedFactory
 import com.application.domain.extensions.delegate
 import com.application.domain.extensions.empty
@@ -13,7 +12,6 @@ import com.application.domain.usecase.authusecases.GetCurrentUserUseCase
 import com.application.presentation.base.BaseViewModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import timber.log.Timber
 
 class LoginViewModel @AssistedInject constructor(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,

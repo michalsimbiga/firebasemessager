@@ -9,6 +9,7 @@ import com.application.domain.extensions.empty
 import com.application.domain.net.MyResult
 import com.application.domain.net.failure
 import com.application.domain.net.success
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -37,9 +38,11 @@ class StorageRepositoryImpl @Inject constructor(
                     if (storagePutTask.isSuccessful) {
                         storageRef.downloadUrl
                             .addOnCompleteListener { urlRetrieveTask ->
-                                if (urlRetrieveTask.isSuccessful) coroutine.resume(
-                                    success(urlRetrieveTask.result.toString())
-                                )
+                                if (urlRetrieveTask.isSuccessful) {
+                                    authRepo.getCurrentUser()?.updateProfile(UserProfileChangeRequest.Builder().setPhotoUri(urlRetrieveTask.result).build())
+                                    coroutine.resume(success(urlRetrieveTask.result.toString())
+                                    )
+                                }
                                 else coroutine.resume(failure(urlRetrieveTask.exception!!))
                             }
                             .addOnCanceledListener { coroutine.cancel() }

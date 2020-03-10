@@ -3,46 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_chat_from_main_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="2dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/fragment_chat_from_main_layout"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/fragment_chat_from_picture"
+            style="@style/MessageImageStyle"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragment_chat_from_text"
+            style="@style/MessageStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
             android:layout_marginEnd="10dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:background="@drawable/message_to_background">
+            android:background="@drawable/message_to_background"
+            android:gravity="end|center_vertical"
+            android:maxWidth="270dp"
+            android:paddingStart="14dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="2dp"
+            app:layout_constraintEnd_toStartOf="@id/fragment_chat_from_picture"
+            app:layout_constraintTop_toTopOf="@id/fragment_chat_from_picture"
+            tools:text="This is a sample chat message text" />
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/fragment_chat_from_picture"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginEnd="10dp"
-                style="@style/MessageImageStyle"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/fragment_chat_from_text"
-                app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/fragment_chat_from_text"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/zero_dp"
-                android:layout_marginEnd="10dp"
-                android:paddingStart="14dp"
-                style="@style/MessageStyle"
-                android:gravity="end|center_vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/fragment_chat_from_picture"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/fragment_chat_from_picture"
-                tools:text="This is a sample chat message text" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </FrameLayout>
 </layout>
