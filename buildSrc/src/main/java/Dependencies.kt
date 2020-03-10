@@ -33,7 +33,7 @@ object Versions {
     val appCompat = "1.0.2"
     val core_ktx = "1.0.1"
     val constraint = "2.0.0-beta3"
-    val material = "1.1.0-alpha09"
+    val material = "1.2.0-alpha03"
     val coroutines = "1.3.2"
     val recyclerview = "1.0.0"
     val cardview = "1.0.0"

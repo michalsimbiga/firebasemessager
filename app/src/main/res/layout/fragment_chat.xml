@@ -10,7 +10,7 @@
             android:id="@+id/fragment_chat_recycler_view"
             android:layout_width="@dimen/zero_dp"
             android:layout_height="@dimen/zero_dp"
-            android:background="@color/cardview_shadow_end_color"
+            android:background="@android:color/darker_gray"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/fragment_chat_send_button"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,6 +35,7 @@
             android:id="@+id/fragment_chat_send_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@android:color/white"
             android:text="Send"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
