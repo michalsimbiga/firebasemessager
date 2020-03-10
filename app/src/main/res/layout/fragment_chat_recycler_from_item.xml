@@ -30,7 +30,7 @@
             android:layout_marginStart="10dp"
             android:background="@drawable/message_from_background"
             android:gravity="start|center_vertical"
-            android:maxWidth="270dp"
+            android:maxWidth="250dp"
             android:paddingStart="14dp"
             android:paddingTop="5dp"
             android:paddingEnd="14dp"

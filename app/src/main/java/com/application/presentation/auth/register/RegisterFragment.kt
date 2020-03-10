@@ -28,7 +28,7 @@ class RegisterFragment : BaseFragment() {
 
     private val viewModel: RegisterViewModel by viewModels { savedStateVmFactory }
 
-    private lateinit var binding: FragmentRegisterBinding
+    private var binding: FragmentRegisterBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,13 +36,13 @@ class RegisterFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
-        with(binding) {
+        binding = FragmentRegisterBinding.inflate(inflater, container, false).apply {
             viewModel = this@RegisterFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
-            return root
         }
+
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,6 +87,11 @@ class RegisterFragment : BaseFragment() {
             .load(viewModel.photoUri)
             .centerCrop()
             .into(user_image)
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
 
     companion object {
         private const val PHOTO_SELECT_REQUEST_CODE = 2020

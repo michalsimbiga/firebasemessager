@@ -1,6 +1,5 @@
 package com.application.domain.repository
 
-import com.application.data.model.User
 import com.application.domain.net.MyResult
 import com.google.firebase.auth.FirebaseUser
 

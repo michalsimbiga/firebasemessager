@@ -3,6 +3,7 @@ package com.application.data.repositories
 import android.net.Uri
 import com.application.data.model.Message
 import com.application.data.model.User
+import com.application.data.model.toUser
 import com.application.domain.repository.AuthenticationRepository
 import com.application.domain.repository.StorageRepository
 import com.application.domain.extensions.empty
@@ -39,11 +40,13 @@ class StorageRepositoryImpl @Inject constructor(
                         storageRef.downloadUrl
                             .addOnCompleteListener { urlRetrieveTask ->
                                 if (urlRetrieveTask.isSuccessful) {
-                                    authRepo.getCurrentUser()?.updateProfile(UserProfileChangeRequest.Builder().setPhotoUri(urlRetrieveTask.result).build())
-                                    coroutine.resume(success(urlRetrieveTask.result.toString())
-                                    )
-                                }
-                                else coroutine.resume(failure(urlRetrieveTask.exception!!))
+                                    authRepo.getCurrentUser()!!.updateProfile(
+                                        UserProfileChangeRequest.Builder()
+                                            .setPhotoUri(urlRetrieveTask.result)
+                                            .build())
+
+                                    coroutine.resume(success(urlRetrieveTask.result.toString())                                    )
+                                } else coroutine.resume(failure(urlRetrieveTask.exception!!))
                             }
                             .addOnCanceledListener { coroutine.cancel() }
                     } else coroutine.resume(failure(storagePutTask.exception!!))
@@ -73,8 +76,11 @@ class StorageRepositoryImpl @Inject constructor(
 
             override fun onDataChange(p0: DataSnapshot) {
                 val retList = mutableListOf<User>()
+                val authenticatedUser = authRepo.getCurrentUser()?.toUser()
                 p0.children.forEach {
-                    it.getValue(User::class.java).apply { if (this != null) retList.add(this) }
+                    it.getValue(User::class.java).apply {
+                        if (this != null && this.uid != authenticatedUser?.uid) retList.add(this)
+                    }
                 }
                 coroutine.resume(retList.toList())
             }

@@ -13,6 +13,7 @@ import com.application.domain.extensions.empty
 import com.application.domain.net.MyResult
 import com.application.domain.net.failure
 import com.application.domain.net.success
+import com.application.domain.usecase.authusecases.LogInWithEmailAndPasswordUseCase
 import com.application.presentation.base.BaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.inject.assisted.Assisted
@@ -21,6 +22,7 @@ import com.squareup.inject.assisted.AssistedInject
 class RegisterViewModel @AssistedInject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val createUserWithEmailAndPasswordUseCase: CreateUserWithEmailAndPasswordUseCase,
+    private val logInWithEmailAndPasswordUseCase: LogInWithEmailAndPasswordUseCase,
     private val uploadImageToFirebaseStorageUseCase: UploadImageToFirebaseStorageUseCase,
     private val saveUserToFirebaseDatabaseUseCase: SaveUserToFirebaseDatabaseUseCase,
     @Assisted private val stateHandle: SavedStateHandle
