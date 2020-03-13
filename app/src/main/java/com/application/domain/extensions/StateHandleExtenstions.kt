@@ -15,7 +15,7 @@ fun <T> SavedStateHandle.delegate(defaultVal: T) = object : ReadWriteProperty<An
         set(property.name, value).also { Timber.i("TESTING setValue $value")}
 }
 
-fun <T> SavedStateHandle.liveData(defaultVal: T) = object : ReadWriteProperty<Any, MutableLiveData<T> {
+fun <T> SavedStateHandle.liveData(defaultVal: T) = object : ReadWriteProperty<Any, MutableLiveData<T>> {
     override fun getValue(thisRef: Any, property: KProperty<*>): MutableLiveData<T> =
         getLiveData(property.name, defaultVal)
 
