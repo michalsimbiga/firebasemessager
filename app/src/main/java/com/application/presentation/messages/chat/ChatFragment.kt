@@ -28,8 +28,8 @@ class ChatFragment : BaseFragment() {
 
     private var binding: FragmentChatBinding? = null
 
-    private val messagesObserver = Observer<Message> { newMessage ->
-        recyclerAdapter.addMessage(newMessage).also {
+    private val messagesObserver = Observer<MutableList<Message>> { newList ->
+        recyclerAdapter.addMessages(newList).also {
             fragment_chat_recycler_view.smoothScrollToPosition(recyclerAdapter.itemCount)
         }
     }
@@ -61,7 +61,6 @@ class ChatFragment : BaseFragment() {
         setupRecycler()
         setupOnClickListeners()
     }
-
 
     private fun setupOnClickListeners() = with(binding) {
         this?.fragmentChatSendButton?.setOnClickListener {

@@ -9,6 +9,7 @@ import com.application.data.model.toUser
 import com.application.di.module.ViewModelAssistedFactory
 import com.application.domain.usecase.databaseusecases.SendMessageToUserUseCase
 import com.application.domain.extensions.delegate
+import com.application.domain.extensions.liveData
 import com.application.domain.net.MyResult
 import com.application.domain.usecase.authusecases.GetCurrentUserUseCase
 import com.application.presentation.base.BaseViewModel
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import timber.log.Timber
 
 class ChatViewModel @AssistedInject constructor(
     @Assisted private val stateHandle: SavedStateHandle,
@@ -28,16 +30,12 @@ class ChatViewModel @AssistedInject constructor(
     @AssistedInject.Factory
     interface Factory : ViewModelAssistedFactory<ChatViewModel>
 
-    private val _message = MutableLiveData<Message>()
-    val messages: LiveData<Message> = _message
+    var messages by stateHandle.liveData(initialValue = mutableListOf<Message>())
 
     private val _currentUser = MutableLiveData<User>()
     val currentUser: LiveData<User> = _currentUser
 
-    private var messagesCache by stateHandle.delegate(listOf<Message>())
-
     init {
-        recoverFromCache()
         getCurrentUser()
         listenForMessages()
     }
@@ -62,13 +60,9 @@ class ChatViewModel @AssistedInject constructor(
         )
     }
 
-    private fun recoverFromCache() {
-        for (message in messagesCache) _message.postValue(message)
-        val list = listOf<Message>()
-    }
-
-    private fun saveToCache(message: Message) {
-        messagesCache = messagesCache + message
+    private fun addMessage(message: Message){
+        val temp = messages.value
+        messages = MutableLiveData(temp?.plus(message)?.toMutableList()!!)
     }
 
     private fun listenForMessages() {
@@ -81,7 +75,9 @@ class ChatViewModel @AssistedInject constructor(
             override fun onChildRemoved(p0: DataSnapshot) {}
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val chatMessage = p0.getValue(Message::class.java) ?: return
-                _message.value = chatMessage.also { saveToCache(it) }
+
+                Timber.i("TESTING onChildAdded $chatMessage")
+                addMessage(chatMessage)
             }
         })
     }

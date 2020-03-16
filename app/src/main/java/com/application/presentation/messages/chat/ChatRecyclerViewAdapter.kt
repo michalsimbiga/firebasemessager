@@ -11,6 +11,7 @@ import com.application.data.model.User
 import com.application.domain.extensions.autoNotify
 import com.application.presentation.base.BaseViewHolder
 import com.bumptech.glide.Glide
+import timber.log.Timber
 import kotlin.properties.Delegates
 
 class ChatRecyclerViewAdapter : AbstractChatRecyclerViewAdapter() {
@@ -32,6 +33,12 @@ class ChatRecyclerViewAdapter : AbstractChatRecyclerViewAdapter() {
         else if (message.fromId == receipient?.uid && message.toId == currentUser?.uid)
             newMessage = MessageEntry.MessageFrom(message)
         newMessage?.let { chatMessages = chatMessages + it }
+    }
+
+    fun addMessages(list: MutableList<Message>) {
+        Timber.i("TESTING new List $list")
+        list.forEach { addMessage(it) }
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = chatMessages.size

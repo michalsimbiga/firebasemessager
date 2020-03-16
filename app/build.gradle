@@ -35,12 +35,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-//    implementation Libraries.googleServices
-
     // Firebase
     implementation Libraries.firebaseAnalytics
-//    implementation Libraries.firebaseCore
-//    implementation Libraries.firebaseMessaging
     implementation Libraries.firebaseStorage
     implementation Libraries.firebaseAuth
     implementation Libraries.firebaseFirestore
@@ -77,9 +73,6 @@ dependencies {
     implementation SupportLibraries.recyclerView
     implementation SupportLibraries.cardView
     implementation SupportLibraries.constraint
-    implementation SupportLibraries.viewPager2
-    implementation SupportLibraries.swipeRefresh
-    implementation SupportLibraries.expendableLayout
 
     // Navigation
     implementation Libraries.navigationFragmentKtx
